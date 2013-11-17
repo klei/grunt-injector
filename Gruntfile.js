@@ -72,8 +72,9 @@ module.exports = function(grunt) {
         }]
       },
       bowerFiles: {
-        src: 'test/fixtures/bower.json',
-        dest: 'tmp/bower.html'
+        files: {
+          'tmp/bower.html': ['test/fixtures/bower.json']
+        }
       },
       bowerWithIgnore: {
         options: {

@@ -18,7 +18,7 @@ module.exports = function(grunt) {
     var options = this.options({
       min: false,
       template: null,
-      starttag: '<!-- injector:{{key}} -->',
+      starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
       transform: function (filepath) {
         var ext = path.extname(filepath).slice(1);
@@ -52,12 +52,12 @@ module.exports = function(grunt) {
     }
 
     function getTag (tagkey) {
-      var key = options.starttag.replace('{{key}}', tagkey);
+      var key = options.starttag.replace('{{ext}}', tagkey);
       if (!tags[key]) {
         tags[key] = {
           key: tagkey,
           starttag: key,
-          endtag: options.endtag.replace('{{key}}', tagkey),
+          endtag: options.endtag.replace('{{ext}}', tagkey),
           sources: []
         };
       }
@@ -97,7 +97,7 @@ module.exports = function(grunt) {
             cssPattern: transformerToPattern('css', options.transform),
             jsPattern: transformerToPattern('js', options.transform)
           });
-          grunt.log.writeln('Injecting ' + 'bower'.yellow + ' dependencies');
+          grunt.log.writeln('Injecting ' + 'bower'.green + ' dependencies');
           templateContent = grunt.file.read(destination);
         } else {
           addFile(options.ignorePath, filepath);
@@ -108,7 +108,7 @@ module.exports = function(grunt) {
         var tag = tags[key];
         var re = new RegExp('([\t ]*)(' + escapeForRegExp(tag.starttag) + ')(\\n|\\r|.)*?(' + escapeForRegExp(tag.endtag) + ')', 'gi');
         templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
-          grunt.log.writeln('Injecting ' + tag.key.yellow + ' files ' + ('(' + tag.sources.length + ' files)').grey);
+          grunt.log.writeln('Injecting ' + tag.key.green + ' files ' + ('(' + tag.sources.length + ' files)').grey);
           return indent + starttag  + [''].concat(tag.sources).concat(['']).join('\n' + indent) + endtag;
         });
       });
