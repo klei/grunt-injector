@@ -85,22 +85,8 @@ module.exports = function(grunt) {
         }
 
         if (path.basename(filepath) === 'bower.json') {
-          // Load bower dependencies with `wiredep`:
-          var helpers = require('wiredep/lib/helpers'),
-              config = helpers.createStore();
-          config.set
-            ('warnings', [])
-            ('global-dependencies', helpers.createStore())
-            ('bower.json', grunt.file.readJSON(filepath))
-            ('directory', path.join(path.dirname(filepath), 'bower_components'))
-            ('css-pattern', transformerToPattern('css', options.transform))
-            ('js-pattern', transformerToPattern('js', options.transform));
-          require('wiredep/lib/detect-dependencies')(config);
-          var deps = config.get('global-dependencies-sorted');
-          Object.keys(deps).forEach(function (key) {
-            deps[key].forEach(function (file) {
-              addFile([options.ignorePath, path.dirname(filepath)], file, 'bower:');
-            });
+          getFilesFromBower(filepath).forEach(function (file) {
+            addFile([options.ignorePath, path.dirname(filepath)], file, 'bower:');
           });
         } else {
           addFile(options.ignorePath, filepath);
@@ -124,6 +110,26 @@ module.exports = function(grunt) {
 
 };
 
+function getFilesFromBower (bowerFile) {
+  // Load bower dependencies with `wiredep`:
+  var helpers = require('wiredep/lib/helpers'),
+      config = helpers.createStore();
+
+  config.set
+    ('warnings', [])
+    ('global-dependencies', helpers.createStore())
+    ('bower.json', JSON.parse(fs.readFileSync(bowerFile, 'utf8')))
+    ('directory', path.join(path.dirname(bowerFile), 'bower_components'));
+
+  require('wiredep/lib/detect-dependencies')(config);
+
+  var deps = config.get('global-dependencies-sorted');
+
+  return Object.keys(deps).reduce(function (files, key) {
+    return files.concat(deps[key]);
+  }, []);
+}
+
 function makeMinifiedIfNeeded (doMinify, filepath) {
   if (!doMinify) {
     return filepath;
@@ -134,13 +140,6 @@ function makeMinifiedIfNeeded (doMinify, filepath) {
     return minFile;
   }
   return filepath;
-}
-
-function transformerToPattern (ext, transformer) {
-  if (!transformer) {
-    return null;
-  }
-  return transformer('{{filePath}}.' + ext).replace(new RegExp('({{filePath}}).' + ext, 'g'), '{{filePath}}');
 }
 
 function toArray (arr) {
