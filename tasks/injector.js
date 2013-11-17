@@ -52,14 +52,16 @@ module.exports = function(grunt) {
     }
 
     function getTag (tagkey) {
-      if (!tags[tagkey]) {
-        tags[tagkey] = {
-          starttag: options.starttag.replace('{{key}}', tagkey),
+      var key = options.starttag.replace('{{key}}', tagkey);
+      if (!tags[key]) {
+        tags[key] = {
+          key: tagkey,
+          starttag: key,
           endtag: options.endtag.replace('{{key}}', tagkey),
           sources: []
         };
       }
-      return tags[tagkey];
+      return tags[key];
     }
 
 
@@ -95,7 +97,7 @@ module.exports = function(grunt) {
             cssPattern: transformerToPattern('css', options.transform),
             jsPattern: transformerToPattern('js', options.transform)
           });
-          grunt.log.writeln('Injecting bower dependencies');
+          grunt.log.writeln('Injecting ' + 'bower'.yellow + ' dependencies');
           templateContent = grunt.file.read(destination);
         } else {
           addFile(options.ignorePath, filepath);
@@ -104,9 +106,9 @@ module.exports = function(grunt) {
 
       Object.keys(tags).forEach(function (key) {
         var tag = tags[key];
-        var re = new RegExp('([\t ]*)(' + tag.starttag + ')(\\n|\\r|.)*?(' + tag.endtag + ')', 'gi');
+        var re = new RegExp('([\t ]*)(' + escapeForRegExp(tag.starttag) + ')(\\n|\\r|.)*?(' + escapeForRegExp(tag.endtag) + ')', 'gi');
         templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
-          grunt.log.writeln('Injecting "' + key + '" files ' + ('(' + tag.sources.length + ' files)').grey);
+          grunt.log.writeln('Injecting ' + tag.key.yellow + ' files ' + ('(' + tag.sources.length + ' files)').grey);
           return indent + starttag  + [''].concat(tag.sources).concat(['']).join('\n' + indent) + endtag;
         });
       });
@@ -157,5 +159,9 @@ function removeBasePath (basedir, filepath) {
       return path;
     }
   }, filepath);
+}
+
+function escapeForRegExp (str) {
+  return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 

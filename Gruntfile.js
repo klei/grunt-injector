@@ -8,6 +8,8 @@
 
 'use strict';
 
+var path = require('path');
+
 module.exports = function(grunt) {
 
   // Project configuration.
@@ -79,6 +81,19 @@ module.exports = function(grunt) {
         },
         src: 'test/fixtures/bower.json',
         dest: 'tmp/bowerWithIgnore.html'
+      },
+      custom: {
+        options: {
+          template: 'test/fixtures/custom.tpl',
+          starttag: '/** tagstart */',
+          endtag: '/** tagend */',
+          transform: function (file) {
+            return "  {ext: '" + path.extname(file).slice(1) + "', file: '" + file + "'},";
+          },
+          ignorePath: 'test/fixtures'
+        },
+        src: ['test/fixtures/script.js', 'test/fixtures/style.css', 'test/fixtures/component.html'],
+        dest: 'tmp/custom.js'
       }
     },
 

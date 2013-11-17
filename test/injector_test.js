@@ -80,5 +80,14 @@ exports.injector = {
     test.equal(actual, expected, 'should inject dependencies installed with bower, and it should take `ignorePath` option into account.');
 
     test.done();
+  },
+  custom: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/custom.js');
+    var expected = grunt.file.read('test/expected/custom.js');
+    test.equal(actual, expected, 'should inject files with custom tags and file transformer.');
+
+    test.done();
   }
 };
