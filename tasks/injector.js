@@ -155,8 +155,8 @@ function addRootSlash (filepath) {
 
 function removeBasePath (basedir, filepath) {
   return toArray(basedir).reduce(function (path, remove) {
-    if (remove) {
-      return path.replace(remove, '');
+    if (remove && path.indexOf(remove) === 0) {
+      return path.slice(remove.length);
     } else {
       return path;
     }
