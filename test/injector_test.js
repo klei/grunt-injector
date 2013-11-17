@@ -72,6 +72,15 @@ exports.injector = {
 
     test.done();
   },
+  bowerMin: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/bowerMin.html');
+    var expected = grunt.file.read('test/expected/bowerMin.html');
+    test.equal(actual, expected, 'should inject minified dependencies installed with bower if they exist and `min` option is `true`.');
+
+    test.done();
+  },
   bowerWithIgnore: function(test) {
     test.expect(1);
 

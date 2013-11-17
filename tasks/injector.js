@@ -86,19 +86,22 @@ module.exports = function(grunt) {
 
         if (path.basename(filepath) === 'bower.json') {
           // Load bower dependencies with `wiredep`:
-          if (!grunt.file.exists(destination)) {
-            grunt.file.write(destination, templateContent);
-          }
-          require('wiredep')({
-            directory: path.join(path.dirname(filepath), 'bower_components'),
-            bowerJson: grunt.file.readJSON(filepath),
-            ignorePath: options.ignorePath || path.dirname(filepath),
-            htmlFile: destination,
-            cssPattern: transformerToPattern('css', options.transform),
-            jsPattern: transformerToPattern('js', options.transform)
+          var helpers = require('wiredep/lib/helpers'),
+              config = helpers.createStore();
+          config.set
+            ('warnings', [])
+            ('global-dependencies', helpers.createStore())
+            ('bower.json', grunt.file.readJSON(filepath))
+            ('directory', path.join(path.dirname(filepath), 'bower_components'))
+            ('css-pattern', transformerToPattern('css', options.transform))
+            ('js-pattern', transformerToPattern('js', options.transform));
+          require('wiredep/lib/detect-dependencies')(config);
+          var deps = config.get('global-dependencies-sorted');
+          Object.keys(deps).forEach(function (key) {
+            deps[key].forEach(function (file) {
+              addFile([options.ignorePath, path.dirname(filepath)], file, 'bower:');
+            });
           });
-          grunt.log.writeln('Injecting ' + 'bower'.green + ' dependencies');
-          templateContent = grunt.file.read(destination);
         } else {
           addFile(options.ignorePath, filepath);
         }

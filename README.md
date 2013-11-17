@@ -166,13 +166,13 @@ index.html:
 <html>
 <head>
   <title>Example</title>
-  <!-- bower:css -->
-  <!-- endbower -->
+  <!-- injector:bower:css -->
+  <!-- endinjector -->
 </head>
 <body>
 
-  <!-- bower:js -->
-  <!-- endbower -->
+  <!-- injector:bower:js -->
+  <!-- endinjector -->
 </body>
 </html>
 ```

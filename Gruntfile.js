@@ -76,6 +76,14 @@ module.exports = function(grunt) {
           'tmp/bower.html': ['test/fixtures/bower.json']
         }
       },
+      bowerMin: {
+        options: {
+          min: true
+        },
+        files: {
+          'tmp/bowerMin.html': ['test/fixtures/bower.json']
+        }
+      },
       bowerWithIgnore: {
         options: {
           ignorePath: 'test/fixtures/bower_components'
