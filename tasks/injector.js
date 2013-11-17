@@ -67,7 +67,7 @@ module.exports = function(grunt) {
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
-      var template = options.template || f.dest,
+      var template = options.template || options.destFile || f.dest,
           destination = options.destFile || f.dest;
 
       if (!grunt.file.exists(template)) {
