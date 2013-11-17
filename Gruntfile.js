@@ -75,7 +75,7 @@ module.exports = function(grunt) {
       },
       bowerWithIgnore: {
         options: {
-          ignorePath: 'bower_components'
+          ignorePath: 'test/fixtures/bower_components'
         },
         src: 'test/fixtures/bower.json',
         dest: 'tmp/bowerWithIgnore.html'

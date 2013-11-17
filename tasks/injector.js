@@ -8,7 +8,8 @@
 
 'use strict';
 
-var path = require('path');
+var path = require('path'),
+    fs = require('fs');
 
 module.exports = function(grunt) {
 
@@ -42,7 +43,7 @@ module.exports = function(grunt) {
           tagkey = (tagkeyPrefix || '') + ext,
           tag = getTag(tagkey);
       filepath = filepath.replace(/\\/g, '/');
-      filepath = makeMinifiedIfNeeded(filepath);
+      filepath = makeMinifiedIfNeeded(options.min, filepath);
       if (basedir) {
         filepath = removeBasePath(basedir, filepath);
       }
@@ -61,63 +62,12 @@ module.exports = function(grunt) {
       return tags[tagkey];
     }
 
-    function makeMinifiedIfNeeded (filepath) {
-      if (!options.min) {
-        return filepath;
-      }
-      var ext = path.extname(filepath);
-      var minFile = filepath.slice(0, -ext.length) + '.min' + ext;
-      if (grunt.file.exists(minFile)) {
-        return minFile;
-      }
-      return filepath;
-    }
-
-    function removeBasePath (basedir, filepath) {
-      return toArray(basedir).reduce(function (path, remove) {
-        if (remove) {
-          return path.replace(remove, '');
-        } else {
-          return path;
-        }
-      }, filepath);
-    }
-
-    function addRootSlash (filepath) {
-      return filepath.replace(/^\/*([^\/])/, '/$1');
-    }
-
-    function toArray (arr) {
-      if (!Array.isArray(arr)) {
-        return [arr];
-      }
-      return arr;
-    }
-
-    function getFilesFromBower (bowerFile) {
-      var bower = grunt.file.readJSON(bowerFile),
-          componentsDir = path.join(path.dirname(bowerFile), 'bower_components'),
-          files = [];
-      Object.keys(bower.dependencies || {}).forEach(function (component) {
-        var componentBowerFile = path.join(componentsDir, component, 'bower.json');
-        var componentBower = grunt.file.readJSON(componentBowerFile);
-        if (componentBower.main) {
-          toArray(componentBower.main).forEach(function (filepath) {
-            filepath = path.join(componentsDir, component, filepath);
-            if (!grunt.file.exists(filepath)) {
-              grunt.log.warn('Source file "' + filepath + '" in bower component "' + component + '" does not exist!');
-              return;
-            }
-            files.push(filepath);
-          });
-        }
-      });
-      return files;
-    }
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
-      var template = options.template || f.dest;
+      var template = options.template || f.dest,
+          destination = options.destFile || f.dest;
+
       if (!grunt.file.exists(template)) {
         grunt.log.error('Could not find template "' + template + '". Injection not possible');
         return false;
@@ -133,9 +83,20 @@ module.exports = function(grunt) {
         }
 
         if (path.basename(filepath) === 'bower.json') {
-          getFilesFromBower(filepath).forEach(function (file) {
-            addFile([path.dirname(filepath), options.ignorePath], file, 'bower:');
+          // Load bower dependencies with `wiredep`:
+          if (!grunt.file.exists(destination)) {
+            grunt.file.write(destination, templateContent);
+          }
+          require('wiredep')({
+            directory: path.join(path.dirname(filepath), 'bower_components'),
+            bowerJson: grunt.file.readJSON(filepath),
+            ignorePath: options.ignorePath || path.dirname(filepath),
+            htmlFile: destination,
+            cssPattern: transformerToPattern('css', options.transform),
+            jsPattern: transformerToPattern('js', options.transform)
           });
+          grunt.log.writeln('Injecting bower dependencies');
+          templateContent = grunt.file.read(destination);
         } else {
           addFile(options.ignorePath, filepath);
         }
@@ -151,9 +112,50 @@ module.exports = function(grunt) {
       });
 
       // Write the destination file.
-      grunt.file.write(options.destFile || f.dest, templateContent);
+      grunt.file.write(destination, templateContent);
 
     });
   });
 
 };
+
+function makeMinifiedIfNeeded (doMinify, filepath) {
+  if (!doMinify) {
+    return filepath;
+  }
+  var ext = path.extname(filepath);
+  var minFile = filepath.slice(0, -ext.length) + '.min' + ext;
+  if (fs.existsSync(minFile)) {
+    return minFile;
+  }
+  return filepath;
+}
+
+function transformerToPattern (ext, transformer) {
+  if (!transformer) {
+    return null;
+  }
+  return transformer('{{filePath}}.' + ext).replace(new RegExp('({{filePath}}).' + ext, 'g'), '{{filePath}}');
+}
+
+function toArray (arr) {
+  if (!Array.isArray(arr)) {
+    return [arr];
+  }
+  return arr;
+}
+
+function addRootSlash (filepath) {
+  return filepath.replace(/^\/*([^\/])/, '/$1');
+}
+
+function removeBasePath (basedir, filepath) {
+  return toArray(basedir).reduce(function (path, remove) {
+    if (remove) {
+      return path.replace(remove, '');
+    } else {
+      return path;
+    }
+  }, filepath);
+}
+
