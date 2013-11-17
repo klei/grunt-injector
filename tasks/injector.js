@@ -133,9 +133,7 @@ module.exports = function(grunt) {
         }
 
         if (path.basename(filepath) === 'bower.json') {
-          console.log('yep bower');
           getFilesFromBower(filepath).forEach(function (file) {
-            console.log('bower files', file);
             addFile([path.dirname(filepath), options.ignorePath], file, 'bower:');
           });
         } else {
@@ -147,6 +145,7 @@ module.exports = function(grunt) {
         var tag = tags[key];
         var re = new RegExp('([\t ]*)(' + tag.starttag + ')(\\n|\\r|.)*?(' + tag.endtag + ')', 'gi');
         templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
+          grunt.log.writeln('Injecting "' + key + '" files ' + ('(' + tag.sources.length + ' files)').grey);
           return indent + starttag  + [''].concat(tag.sources).concat(['']).join('\n' + indent) + endtag;
         });
       });
@@ -154,8 +153,6 @@ module.exports = function(grunt) {
       // Write the destination file.
       grunt.file.write(options.destFile || f.dest, templateContent);
 
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
     });
   });
 
