@@ -104,7 +104,7 @@ module.exports = function(grunt) {
       });
 
       // Write the destination file.
-      if (templateContent !== templateOriginal) {
+      if (templateContent !== templateOriginal || !grunt.file.exists(destination)) {
         grunt.file.write(destination, templateContent);
       } else {
         grunt.log.ok('Nothing changed');
