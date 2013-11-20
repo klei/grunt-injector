@@ -33,7 +33,7 @@ module.exports = function(grunt) {
     });
 
     if (!options.template) {
-      grunt.log.warn('Missing option `template`, using `dest` as template instead');
+      grunt.log.writeln('Missing option `template`, using `dest` as template instead'.grey);
     }
 
     var tags = {};
@@ -75,7 +75,8 @@ module.exports = function(grunt) {
         return false;
       }
 
-      var templateContent = grunt.file.read(template);
+      var templateContent = grunt.file.read(template),
+          templateOriginal = templateContent;
 
       f.src.forEach(function(filepath) {
         // Warn on and remove invalid source files.
@@ -103,7 +104,11 @@ module.exports = function(grunt) {
       });
 
       // Write the destination file.
-      grunt.file.write(destination, templateContent);
+      if (templateContent !== templateOriginal) {
+        grunt.file.write(destination, templateContent);
+      } else {
+        grunt.log.ok('Nothing changed');
+      }
 
     });
   });
