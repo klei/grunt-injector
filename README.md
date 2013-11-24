@@ -78,9 +78,10 @@ Set the end tag that the injector is looking for. `{{ext}}` is replaced with fil
 Type: `Function`
 Params: `filepath`
 Default value: a function that returns:
-  * For css files: `<link rel="stylesheet" href="<filename>.css">`
-  * For js files: `<script src="<filename>.js"></script>`
-  * For html files: `<link rel="import" href="<filename>.html">`
+
+* For css files: `<link rel="stylesheet" href="<filename>.css">`
+* For js files: `<script src="<filename>.js"></script>`
+* For html files: `<link rel="import" href="<filename>.html">`
 
 Used to generate the content to inject for each file.
 
@@ -186,6 +187,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 
 **0.2.0** - 2013-11-20 - Don't write to destination file if it hasn't been changed by the injector (useful to not trigger any unnecessary watch tasks if applicable)
+
 **0.1.2** - 2013-11-17 - Making it possible to only provide destFile and not template
+
 **0.1.1** - 2013-11-17 - ignorePath now only removes from start of path
+
 **0.1.0** - 2013-11-17 - First release
