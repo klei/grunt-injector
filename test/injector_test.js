@@ -98,5 +98,14 @@ exports.injector = {
     test.equal(actual, expected, 'should inject files with custom tags and file transformer.');
 
     test.done();
+  },
+  customSort: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/customSort.js');
+    var expected = grunt.file.read('test/expected/customSort.js');
+    test.equal(actual, expected, 'should inject files ordered with a custom sorting function.');
+
+    test.done();
   }
 };

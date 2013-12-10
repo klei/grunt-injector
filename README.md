@@ -85,6 +85,15 @@ Default value: a function that returns:
 
 Used to generate the content to inject for each file.
 
+#### options.sort
+Type: `Function`
+Params: `a`, `b` (is used as `compareFunction` for [Array.prototype.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort))
+Default value: `NULL`
+
+If set the given function is used as the compareFunction for the array sort function, to sort the source files by.
+
+**N.B.** Shouldn't be used in conjunction with a `bower.json` file as source, because [wiredep](https://github.com/stephenplusplus/wiredep), which collects Bower installed dependencies, has some intelligent sorting built in.
+
 ### Usage Examples
 
 #### Injecting into html file with default options
@@ -113,8 +122,8 @@ grunt.initConfig({
   injector: {
     options: {},
     local_dependencies: {
-    files: {
-      'index.html': ['**/*.js', '**/*.css'],
+      files: {
+        'index.html': ['**/*.js', '**/*.css'],
       }
     }
   }
@@ -156,8 +165,8 @@ grunt.initConfig({
   injector: {
     options: {},
     bower_dependencies: {
-    files: {
-      'index.html': ['bower.json'],
+      files: {
+        'index.html': ['bower.json'],
       }
     }
   }

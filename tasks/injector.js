@@ -48,7 +48,7 @@ module.exports = function(grunt) {
         filepath = removeBasePath(basedir, filepath);
       }
       filepath = addRootSlash(filepath);
-      tag.sources.push(options.transform(filepath));
+      tag.sources.push({file: filepath, transformed: options.transform(filepath)});
     }
 
     function getTag (tagkey) {
@@ -99,7 +99,12 @@ module.exports = function(grunt) {
         var re = new RegExp('([\t ]*)(' + escapeForRegExp(tag.starttag) + ')(\\n|\\r|.)*?(' + escapeForRegExp(tag.endtag) + ')', 'gi');
         templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
           grunt.log.writeln('Injecting ' + tag.key.green + ' files ' + ('(' + tag.sources.length + ' files)').grey);
-          return indent + starttag  + [''].concat(tag.sources).concat(['']).join('\n' + indent) + endtag;
+          if (typeof options.sort === 'function') {
+            tag.sources.sort(function (a, b) {
+              return options.sort(a.file, b.file);
+            });
+          }
+          return indent + starttag  + [''].concat(tag.sources.map(function (s) { return s.transformed; })).concat(['']).join('\n' + indent) + endtag;
         });
       });
 
