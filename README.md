@@ -112,10 +112,12 @@ Gruntfile.js:
 grunt.initConfig({
   injector: {
     options: {},
+    local_dependencies: {
     files: {
       'index.html': ['**/*.js', '**/*.css'],
-    },
-  },
+      }
+    }
+  }
 })
 ```
 
@@ -153,10 +155,12 @@ Gruntfile.js:
 grunt.initConfig({
   injector: {
     options: {},
+    bower_dependencies: {
     files: {
       'index.html': ['bower.json'],
-    },
-  },
+      }
+    }
+  }
 })
 ```
 
