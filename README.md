@@ -199,6 +199,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+**0.3.0** - 2013-12-10 - Adding `sort` option to be able to sort files. Also rewriting for performance which removes unnecessary injections for dynamic file objects
+
 **0.2.0** - 2013-11-20 - Don't write to destination file if it hasn't been changed by the injector (useful to not trigger any unnecessary watch tasks if applicable)
 
 **0.1.2** - 2013-11-17 - Making it possible to only provide destFile and not template
