@@ -9,7 +9,11 @@
 'use strict';
 
 var path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    _ = require('lodash'),
+    ext = function (file) {
+      return path.extname(file).slice(1);
+    };
 
 module.exports = function(grunt) {
 
@@ -21,12 +25,12 @@ module.exports = function(grunt) {
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
       transform: function (filepath) {
-        var ext = path.extname(filepath).slice(1);
-        if (ext === 'css') {
+        var e = ext(filepath);
+        if (e === 'css') {
           return '<link rel="stylesheet" href="' + filepath + '">';
-        } else if (ext === 'js') {
+        } else if (e === 'js') {
           return '<script src="' + filepath + '"></script>';
-        } else if (ext === 'html') {
+        } else if (e === 'html') {
           return '<link rel="import" href="' + filepath + '">';
         }
       }
@@ -36,36 +40,10 @@ module.exports = function(grunt) {
       grunt.log.writeln('Missing option `template`, using `dest` as template instead'.grey);
     }
 
-    var tags = {};
+    var filesToInject = {};
 
-    function addFile (basedir, filepath, tagkeyPrefix) {
-      var ext = path.extname(filepath).slice(1),
-          tagkey = (tagkeyPrefix || '') + ext,
-          tag = getTag(tagkey);
-      filepath = filepath.replace(/\\/g, '/');
-      filepath = makeMinifiedIfNeeded(options.min, filepath);
-      if (basedir) {
-        filepath = removeBasePath(basedir, filepath);
-      }
-      filepath = addRootSlash(filepath);
-      tag.sources.push({file: filepath, transformed: options.transform(filepath)});
-    }
+    // Iterate over all specified file groups and gather files to inject:
 
-    function getTag (tagkey) {
-      var key = options.starttag.replace('{{ext}}', tagkey);
-      if (!tags[key]) {
-        tags[key] = {
-          key: tagkey,
-          starttag: key,
-          endtag: options.endtag.replace('{{ext}}', tagkey),
-          sources: []
-        };
-      }
-      return tags[key];
-    }
-
-
-    // Iterate over all specified file groups.
     this.files.forEach(function(f) {
       var template = options.template || options.destFile || f.dest,
           destination = options.destFile || f.dest;
@@ -75,8 +53,17 @@ module.exports = function(grunt) {
         return false;
       }
 
-      var templateContent = grunt.file.read(template),
-          templateOriginal = templateContent;
+      // Group by destination:
+      if (!filesToInject[destination]) {
+        filesToInject[destination] = {};
+      }
+
+      // ...and template:
+      if (!filesToInject[destination][template]) {
+        filesToInject[destination][template] = [];
+      }
+
+      var files = filesToInject[destination][template];
 
       f.src.forEach(function(filepath) {
         // Warn on and remove invalid source files.
@@ -85,40 +72,87 @@ module.exports = function(grunt) {
           return;
         }
 
+        // Special handling of bower.json:
         if (path.basename(filepath) === 'bower.json') {
-          getFilesFromBower(filepath).forEach(function (file) {
-            addFile([options.ignorePath, path.dirname(filepath)], file, 'bower:');
-          });
+          files.push.apply(files, getFilesFromBower(filepath).map(function (fpath) {
+            return {path: fpath, ignore: path.dirname(filepath), key: 'bower:' + ext(fpath)};
+          }));
         } else {
-          addFile(options.ignorePath, filepath);
+          files.push({path: filepath, key: ext(filepath)});
         }
       });
 
-      Object.keys(tags).forEach(function (key) {
-        var tag = tags[key];
-        var re = new RegExp('([\t ]*)(' + escapeForRegExp(tag.starttag) + ')(\\n|\\r|.)*?(' + escapeForRegExp(tag.endtag) + ')', 'gi');
-        templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
-          grunt.log.writeln('Injecting ' + tag.key.green + ' files ' + ('(' + tag.sources.length + ' files)').grey);
+    });
+
+    /**
+     * Inject all gathered files per destination, template and starttag:
+     */
+    _.forIn(filesToInject, function (templates, destination) {
+      _.forIn(templates, function (files, template) {
+        // Remove possible duplicates:
+        files = _.uniq(files);
+
+        files.forEach(function (obj) {
+          // Get start and end tag for each file:
+          obj.starttag = getTag(options.starttag, obj.key);
+          obj.endtag = getTag(options.endtag, obj.key);
+
+          // Fix filename (remove ignorepaths and such):
+          var file = unixify(obj.path);
+          file = makeMinifiedIfNeeded(options.min, file);
+          if (options.ignorePath || obj.ignore) {
+            file = removeBasePath([options.ignorePath, obj.ignore], file);
+          }
+          file = addRootSlash(file);
+          obj.file = file;
+
+          // Transform to injection content:
+          obj.transformed = options.transform(obj.file);
+        });
+
+        // Read template:
+        var templateContent = grunt.file.read(template),
+            templateOriginal = templateContent;
+
+        // Inject per start tag:
+        _.forIn(_.groupBy(files, 'starttag'), function (sources, starttag) {
+          var endtag = sources[0].endtag,
+              key = sources[0].key;
+
+          // Sort files if needed:
           if (typeof options.sort === 'function') {
-            tag.sources.sort(function (a, b) {
+            sources.sort(function (a, b) {
               return options.sort(a.file, b.file);
             });
           }
-          return indent + starttag  + [''].concat(tag.sources.map(function (s) { return s.transformed; })).concat(['']).join('\n' + indent) + endtag;
+
+          // Do the injection:
+          var re = getInjectorTagsRegExp(starttag, endtag);
+          templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
+            grunt.log.writeln('Injecting ' + key.green + ' files ' + ('(' + sources.length + ' files)').grey);
+            return indent + starttag + getIndentedTransformations(sources, indent) + endtag;
+          });
         });
+
+        // Write the destination file.
+        if (templateContent !== templateOriginal || !grunt.file.exists(destination)) {
+          grunt.file.write(destination, templateContent);
+        } else {
+          grunt.log.ok('Nothing changed');
+        }
       });
-
-      // Write the destination file.
-      if (templateContent !== templateOriginal || !grunt.file.exists(destination)) {
-        grunt.file.write(destination, templateContent);
-      } else {
-        grunt.log.ok('Nothing changed');
-      }
-
     });
-  });
 
+  });
 };
+
+function getInjectorTagsRegExp (starttag, endtag) {
+  return new RegExp('([\t ]*)(' + escapeForRegExp(starttag) + ')(\\n|\\r|.)*?(' + escapeForRegExp(endtag) + ')', 'gi');
+}
+
+function getTag (tag, ext) {
+  return tag.replace('{{ext}}', ext);
+}
 
 function getFilesFromBower (bowerFile) {
   // Load bower dependencies with `wiredep`:
@@ -138,6 +172,10 @@ function getFilesFromBower (bowerFile) {
   return Object.keys(deps).reduce(function (files, key) {
     return files.concat(deps[key]);
   }, []);
+}
+
+function unixify (path) {
+  return path.replace(/\\/g, '/');
 }
 
 function makeMinifiedIfNeeded (doMinify, filepath) {
@@ -175,5 +213,14 @@ function removeBasePath (basedir, filepath) {
 
 function escapeForRegExp (str) {
   return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
+function getIndentedTransformations (sources, indent) {
+  var transformations = sources.map(function (s) {
+    return s.transformed;
+  });
+  transformations.unshift('');
+  transformations.push('');
+  return transformations.join('\n' + indent);
 }
 
