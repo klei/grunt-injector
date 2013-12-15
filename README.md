@@ -45,10 +45,10 @@ The source template where you have your injection tags.
 If not provided, the given `dest` file must exist and will be used as source template as well, and therefor will be modified on injection.
 
 #### options.ignorePath
-Type: `String`
+Type: `String`|`Array`
 Default value: `NULL`
 
-A path that should be removed from each injected file path.
+A path or paths that should be removed from each injected file path.
 
 #### options.destFile
 Type: `String`
@@ -198,6 +198,8 @@ For more advanced task configurations se the `Gruntfile.js` in this repository a
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+**0.3.1** - 2013-12-15 - Fixing possibility to provide ignorePath as array
 
 **0.3.0** - 2013-12-10 - Adding `sort` option to be able to sort files. Also rewriting for performance which removes unnecessary injections for dynamic file objects
 

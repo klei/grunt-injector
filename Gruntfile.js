@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       },
       ignorePath: {
         options: {
-          ignorePath: 'test/fixtures'
+          ignorePath: ['test/fixtures']
         },
         files: {
           'tmp/ignorePath.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*'],

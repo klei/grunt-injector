@@ -101,7 +101,7 @@ module.exports = function(grunt) {
           var file = unixify(obj.path);
           file = makeMinifiedIfNeeded(options.min, file);
           if (options.ignorePath || obj.ignore) {
-            file = removeBasePath([options.ignorePath, obj.ignore], file);
+            file = removeBasePath(toArray(options.ignorePath).concat(toArray(obj.ignore)), file);
           }
           file = addRootSlash(file);
           obj.file = file;
@@ -192,7 +192,7 @@ function makeMinifiedIfNeeded (doMinify, filepath) {
 
 function toArray (arr) {
   if (!Array.isArray(arr)) {
-    return [arr];
+    return arr ? [arr] : [];
   }
   return arr;
 }
