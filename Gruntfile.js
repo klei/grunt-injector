@@ -43,8 +43,8 @@ module.exports = function(grunt) {
       templateString: {
         options: {
           template: null,
-          templateString: '[]',
-          starttag: '[',
+          templateString: '{\n  "js": []\n}',
+          starttag: '"{{ext}}": [',
           endtag: ']',
           transform: function (file, i, length) {
             return '  "' + file + '"' + (i + 1 < length ? ',' : '');

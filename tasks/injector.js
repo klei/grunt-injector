@@ -92,7 +92,7 @@ module.exports = function(grunt) {
         // Remove possible duplicates:
         files = _.uniq(files);
 
-        files.forEach(function (obj, i) {
+        files.forEach(function (obj) {
           // Get start and end tag for each file:
           obj.starttag = getTag(options.starttag, obj.key);
           obj.endtag = getTag(options.endtag, obj.key);
@@ -105,9 +105,6 @@ module.exports = function(grunt) {
           }
           file = addRootSlash(file);
           obj.file = file;
-
-          // Transform to injection content:
-          obj.transformed = options.transform(obj.file, i, files.length);
         });
 
         // Read template:
@@ -118,6 +115,11 @@ module.exports = function(grunt) {
         _.forIn(_.groupBy(files, 'starttag'), function (sources, starttag) {
           var endtag = sources[0].endtag,
               key = sources[0].key;
+
+          // Transform to injection content:
+          sources.forEach(function (obj, i) {
+            obj.transformed = options.transform(obj.file, i, sources.length);
+          });
 
           // Sort files if needed:
           if (typeof options.sort === 'function') {
