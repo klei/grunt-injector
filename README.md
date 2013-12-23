@@ -41,7 +41,7 @@ grunt.initConfig({
 Type: `String`
 Defaulting to `dest` property of file group
 
-The source template where you have your injection tags.
+The filename for the source template where you have your injection tags.
 If not provided, the given `dest` file must exist and will be used as source template as well, and therefor will be modified on injection.
 
 #### options.templateString
@@ -73,16 +73,18 @@ Type: `String`
 Default value: `<!-- injector:{{ext}} -->`
 
 Set the start tag that the injector is looking for. `{{ext}}` is replaced with file extension name, e.g. "css", "js" or "html".
+The extension for files collected from from Bower components is prepended with "bower:", e.g. "bower:js".
 
 #### options.endtag
 Type: `String`
 Default value: `<!-- endinjector -->`
 
 Set the end tag that the injector is looking for. `{{ext}}` is replaced with file extension name, e.g. "css", "js" or "html".
+The extension for files collected from from Bower components is prepended with "bower:", e.g. "bower:js".
 
 #### options.transform
 Type: `Function`
-Params: `filepath`
+Params: `filepath`, `index` (0-based file index), `length` (total number of files to inject)
 Default value: a function that returns:
 
 * For css files: `<link rel="stylesheet" href="<filename>.css">`
