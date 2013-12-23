@@ -207,6 +207,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+**0.4.1** - 2013-12-23 - Fixing `index` and `length` params for `transform` function
+
 **0.4.0** - 2013-12-23 - Adding `templateString` option
 
 **0.3.1** - 2013-12-15 - Fixing possibility to provide ignorePath as array
