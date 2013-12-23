@@ -1,4 +1,7 @@
 {
   "name": "fake",
-  "main": "fake.js"
+  "main": [
+    "fake.js",
+    "fake.css"
+  ]
 }
