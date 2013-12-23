@@ -40,6 +40,20 @@ module.exports = function(grunt) {
           'tmp/defaults.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
         }
       },
+      templateString: {
+        options: {
+          template: null,
+          templateString: '[]',
+          starttag: '[',
+          endtag: ']',
+          transform: function (file, i, length) {
+            return '  "' + file + '"' + (i + 1 < length ? ',' : '');
+          }
+        },
+        files: {
+          'tmp/templateString.json': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
+        }
+      },
       ignorePath: {
         options: {
           ignorePath: ['test/fixtures']

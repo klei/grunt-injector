@@ -36,7 +36,7 @@ module.exports = function(grunt) {
       }
     });
 
-    if (!options.template) {
+    if (!options.template && !options.templateString) {
       grunt.log.writeln('Missing option `template`, using `dest` as template instead'.grey);
     }
 
@@ -45,10 +45,10 @@ module.exports = function(grunt) {
     // Iterate over all specified file groups and gather files to inject:
 
     this.files.forEach(function(f) {
-      var template = options.template || options.destFile || f.dest,
+      var template = options.templateString || options.template || options.destFile || f.dest,
           destination = options.destFile || f.dest;
 
-      if (!grunt.file.exists(template)) {
+      if (!options.templateString && !grunt.file.exists(template)) {
         grunt.log.error('Could not find template "' + template + '". Injection not possible');
         return false;
       }
@@ -92,7 +92,7 @@ module.exports = function(grunt) {
         // Remove possible duplicates:
         files = _.uniq(files);
 
-        files.forEach(function (obj) {
+        files.forEach(function (obj, i) {
           // Get start and end tag for each file:
           obj.starttag = getTag(options.starttag, obj.key);
           obj.endtag = getTag(options.endtag, obj.key);
@@ -107,11 +107,11 @@ module.exports = function(grunt) {
           obj.file = file;
 
           // Transform to injection content:
-          obj.transformed = options.transform(obj.file);
+          obj.transformed = options.transform(obj.file, i, files.length);
         });
 
         // Read template:
-        var templateContent = grunt.file.read(template),
+        var templateContent = options.templateString || grunt.file.read(template),
             templateOriginal = templateContent;
 
         // Inject per start tag:
