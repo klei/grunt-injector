@@ -22,6 +22,7 @@ module.exports = function(grunt) {
     var options = this.options({
       min: false,
       template: null,
+      bowerPrefix: null,
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
       transform: function (filepath) {
@@ -75,7 +76,7 @@ module.exports = function(grunt) {
         // Special handling of bower.json:
         if (path.basename(filepath) === 'bower.json') {
           files.push.apply(files, getFilesFromBower(filepath).map(function (fpath) {
-            return {path: fpath, ignore: path.dirname(filepath), key: 'bower:' + ext(fpath)};
+            return {path: fpath, ignore: path.dirname(filepath), key: (options.bowerPrefix || '') + ext(fpath)};
           }));
         } else {
           files.push({path: filepath, key: ext(filepath)});

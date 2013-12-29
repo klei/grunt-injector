@@ -105,6 +105,14 @@ module.exports = function(grunt) {
         src: 'test/fixtures/bower.json',
         dest: 'tmp/bowerWithIgnore.html'
       },
+      bowerWithPrefix: {
+        options: {
+          bowerPrefix: 'bower:'
+        },
+        files: {
+          'tmp/bowerWithPrefix.html': ['test/fixtures/bower.json']
+        }
+      },
       custom: {
         options: {
           template: 'test/fixtures/custom.tpl',

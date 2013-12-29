@@ -73,14 +73,21 @@ Type: `String`
 Default value: `<!-- injector:{{ext}} -->`
 
 Set the start tag that the injector is looking for. `{{ext}}` is replaced with file extension name, e.g. "css", "js" or "html".
-The extension for files collected from from Bower components is prepended with "bower:", e.g. "bower:js".
+The extension for files collected from from Bower components is prepended with option `bowerPrefix` if given.
 
 #### options.endtag
 Type: `String`
 Default value: `<!-- endinjector -->`
 
 Set the end tag that the injector is looking for. `{{ext}}` is replaced with file extension name, e.g. "css", "js" or "html".
-The extension for files collected from from Bower components is prepended with "bower:", e.g. "bower:js".
+The extension for files collected from from Bower components is prepended with option `bowerPrefix` if given.
+
+#### options.bowerPrefix
+Type: `String`
+Default value: `NULL`
+
+Set prefix for file extension when replacing `{{ext}}` in start and end tag (see above).
+**Added in v.0.5.0.** To keep old behaviour set this to "bower:". See *Bower dependency injection* below as well.
 
 #### options.transform
 Type: `Function`
@@ -166,6 +173,8 @@ index.html:
 The `grunt-injector` can be used to inject your installed Bower Components as well.
 To do this the module [wiredep](https://github.com/stephenplusplus/wiredep) is used, and here's how the configuration can look like in that case:
 
+**N.B** From version **0.5.0** the `{{ext}}` in the starttag is not prefixed with `bower:` by default anymore! To keep the old behaviour set the `bowerPrefix` to "bower:".
+
 Gruntfile.js:
 
 ```js
@@ -188,24 +197,26 @@ index.html:
 <html>
 <head>
   <title>Example</title>
-  <!-- injector:bower:css -->
+  <!-- injector:css -->
   <!-- endinjector -->
 </head>
 <body>
 
-  <!-- injector:bower:js -->
+  <!-- injector:js -->
   <!-- endinjector -->
 </body>
 </html>
 ```
 
 #### Other configurations
-For more advanced task configurations se the `Gruntfile.js` in this repository and have a look at the tests in `test/injector_test.js`.
+For more advanced task configurations see the `Gruntfile.js` in this repository and have a look at the tests in `test/injector_test.js`.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+**0.5.0** - 2013-12-29 - Removing the default `bower:` prefix for Bower injections (see *Bower dependency injection* above)
 
 **0.4.1** - 2013-12-23 - Fixing `index` and `length` params for `transform` function
 

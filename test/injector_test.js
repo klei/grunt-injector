@@ -99,6 +99,15 @@ exports.injector = {
 
     test.done();
   },
+  bowerWithPrefix: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/bowerWithPrefix.html');
+    var expected = grunt.file.read('test/expected/bowerWithPrefix.html');
+    test.equal(actual, expected, 'should inject dependencies installed with bower, and it should take `bowerPrefix` option into account.');
+
+    test.done();
+  },
   custom: function(test) {
     test.expect(1);
 
