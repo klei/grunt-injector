@@ -54,6 +54,15 @@ exports.injector = {
 
     test.done();
   },
+  noAddRootSlash: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/noAddRootSlash.html');
+    var expected = grunt.file.read('test/expected/noAddRootSlash.html');
+    test.equal(actual, expected, 'should inject stylesheets, scripts and html components without root slash if `addRootSlash` is false.');
+
+    test.done();
+  },
   expanded: function(test) {
     test.expect(1);
 

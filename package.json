@@ -1,7 +1,7 @@
 {
   "name": "grunt-injector",
   "description": "Inject references to files into other files (think scripts and stylesheets into an html file)",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "homepage": "https://github.com/klei-dev/grunt-injector",
   "author": {
     "name": "Joakim Bengtson",

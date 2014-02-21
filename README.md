@@ -56,6 +56,12 @@ Default value: `NULL`
 
 A path or paths that should be removed from each injected file path.
 
+#### options.addRootSlash
+Type: `Boolean`
+Default value: `true`
+
+Specifies if a root slash (`/`) should be added to all paths.
+
 #### options.destFile
 Type: `String`
 Default value: `NULL`
@@ -215,6 +221,8 @@ For more advanced task configurations see the `Gruntfile.js` in this repository 
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+**0.5.1** - 2014-02-21 - Adding `addRootSlash` option (Fixes: [#1](https://github.com/klei/grunt-injector/issues/1))
 
 **0.5.0** - 2013-12-29 - Removing the default `bower:` prefix for Bower injections (see *Bower dependency injection* above)
 

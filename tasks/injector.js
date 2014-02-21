@@ -23,6 +23,7 @@ module.exports = function(grunt) {
       min: false,
       template: null,
       bowerPrefix: null,
+      addRootSlash: true,
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
       transform: function (filepath) {
@@ -104,7 +105,9 @@ module.exports = function(grunt) {
           if (options.ignorePath || obj.ignore) {
             file = removeBasePath(toArray(options.ignorePath).concat(toArray(obj.ignore)), file);
           }
-          file = addRootSlash(file);
+          if (options.addRootSlash) {
+            file = addRootSlash(file);
+          }
           obj.file = file;
         });
 
