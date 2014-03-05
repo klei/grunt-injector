@@ -222,6 +222,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+**0.5.2** - 2014-03-05 - Getting bower components directory from `.bowerrc` file if it exists (Fixes: [#2](https://github.com/klei/grunt-injector/issues/2))
+
 **0.5.1** - 2014-02-21 - Adding `addRootSlash` option (Fixes: [#1](https://github.com/klei/grunt-injector/issues/1))
 
 **0.5.0** - 2013-12-29 - Removing the default `bower:` prefix for Bower injections (see *Bower dependency injection* above)
