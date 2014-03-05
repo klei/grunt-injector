@@ -90,6 +90,15 @@ exports.injector = {
 
     test.done();
   },
+  bowerInOtherDir: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/bowerInOtherDir.html');
+    var expected = grunt.file.read('test/expected/bowerInOtherDir.html');
+    test.equal(actual, expected, 'should inject dependencies installed with bower in other directory specified in .bowerrc.');
+
+    test.done();
+  },
   bowerMin: function(test) {
     test.expect(1);
 

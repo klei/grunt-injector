@@ -169,7 +169,7 @@ function getFilesFromBower (bowerFile) {
     ('warnings', [])
     ('global-dependencies', helpers.createStore())
     ('bower.json', JSON.parse(fs.readFileSync(bowerFile, 'utf8')))
-    ('directory', path.join(path.dirname(bowerFile), 'bower_components'));
+    ('directory', getBowerComponentsDir(bowerFile));
 
   require('wiredep/lib/detect-dependencies')(config);
 
@@ -178,6 +178,20 @@ function getFilesFromBower (bowerFile) {
   return Object.keys(deps).reduce(function (files, key) {
     return files.concat(deps[key]);
   }, []);
+}
+
+function getBowerComponentsDir (bowerFile) {
+  var bowerBaseDir = path.dirname(bowerFile),
+      bowerRcFile = path.join(bowerBaseDir, '.bowerrc'),
+      dir = 'bower_components';
+
+  if (fs.existsSync(bowerRcFile)) {
+    try {
+      dir = JSON.parse(fs.readFileSync(bowerRcFile, 'utf8')).directory;
+    } catch (e) {
+    }
+  }
+  return path.join(bowerBaseDir, dir);
 }
 
 function unixify (path) {

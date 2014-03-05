@@ -98,6 +98,11 @@ module.exports = function(grunt) {
           'tmp/bower.html': ['test/fixtures/bower.json']
         }
       },
+      bowerInOtherDir: {
+        files: {
+          'tmp/bowerInOtherDir.html': ['test/fixtures/bower_fake/bower.json']
+        }
+      },
       bowerMin: {
         options: {
           min: true
