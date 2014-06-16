@@ -157,7 +157,7 @@ function getInjectorTagsRegExp (starttag, endtag) {
 }
 
 function getTag (tag, ext) {
-  return tag.replace('{{ext}}', ext);
+  return tag.replace(new RegExp( escapeForRegExp('{{ext}}'), 'g'), ext);
 }
 
 function getFilesFromBower (bowerFile) {
