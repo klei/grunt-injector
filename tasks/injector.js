@@ -83,6 +83,19 @@ module.exports = function(grunt) {
         } else {
           files.push({path: filepath, key: ext(filepath)});
         }
+        
+        // Clear existing content between injectors
+        var templateContent = options.templateString || grunt.file.read(template),
+          templateOriginal = templateContent;
+ 
+        var re = getInjectorTagsRegExp(options.starttag, options.endtag);
+        templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
+          return indent + starttag + os.EOL + indent + endtag;
+        });
+ 
+        if (templateContent !== templateOriginal || !grunt.file.exists(destination)) {
+          grunt.file.write(destination, templateContent);
+        }
       });
 
     });
