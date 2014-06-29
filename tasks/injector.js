@@ -25,8 +25,8 @@ module.exports = function(grunt) {
       template: null,
       bowerPrefix: null,
       addRootSlash: true,
-      starttag: '<!-- injector:{{ext}} -->',
-      endtag: '<!-- endinjector -->',
+      startTag: '<!-- injector:{{ext}} -->',
+      endTag: '<!-- endinjector -->',
       transform: function (filepath) {
         var e = ext(filepath);
         if (e === 'css') {
@@ -88,9 +88,9 @@ module.exports = function(grunt) {
         var templateContent = options.templateString || grunt.file.read(template),
           templateOriginal = templateContent;
  
-        var re = getInjectorTagsRegExp(options.starttag, options.endtag);
-        templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
-          return indent + starttag + os.EOL + indent + endtag;
+        var re = getInjectorTagsRegExp(options.startTag, options.endTag);
+        templateContent = templateContent.replace(re, function (match, indent, startTag, content, endTag) {
+          return indent + startTag + os.EOL + indent + endTag;
         });
  
         if (templateContent !== templateOriginal || !grunt.file.exists(destination)) {
@@ -101,7 +101,7 @@ module.exports = function(grunt) {
     });
 
     /**
-     * Inject all gathered files per destination, template and starttag:
+     * Inject all gathered files per destination, template and startTag:
      */
     _.forIn(filesToInject, function (templates, destination) {
       _.forIn(templates, function (files, template) {
@@ -110,8 +110,8 @@ module.exports = function(grunt) {
 
         files.forEach(function (obj) {
           // Get start and end tag for each file:
-          obj.starttag = getTag(options.starttag, obj.key);
-          obj.endtag = getTag(options.endtag, obj.key);
+          obj.startTag = getTag(options.startTag, obj.key);
+          obj.endTag = getTag(options.endTag, obj.key);
 
           // Fix filename (remove ignorepaths and such):
           var file = unixify(obj.path);
@@ -130,8 +130,8 @@ module.exports = function(grunt) {
             templateOriginal = templateContent;
 
         // Inject per start tag:
-        _.forIn(_.groupBy(files, 'starttag'), function (sources, starttag) {
-          var endtag = sources[0].endtag,
+        _.forIn(_.groupBy(files, 'startTag'), function (sources, startTag) {
+          var endTag = sources[0].endTag,
               key = sources[0].key;
 
           // Transform to injection content:
@@ -147,10 +147,10 @@ module.exports = function(grunt) {
           }
 
           // Do the injection:
-          var re = getInjectorTagsRegExp(starttag, endtag);
-          templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
+          var re = getInjectorTagsRegExp(startTag, endTag);
+          templateContent = templateContent.replace(re, function (match, indent, startTag, content, endTag) {
             grunt.log.writeln('Injecting ' + key.green + ' files ' + ('(' + sources.length + ' files)').grey);
-            return indent + starttag + getIndentedTransformations(sources, indent) + endtag;
+            return indent + startTag + getIndentedTransformations(sources, indent) + endTag;
           });
         });
 
@@ -166,8 +166,8 @@ module.exports = function(grunt) {
   });
 };
 
-function getInjectorTagsRegExp (starttag, endtag) {
-  return new RegExp('([\t ]*)(' + escapeForRegExp(starttag) + ')(\\n|\\r|.)*?(' + escapeForRegExp(endtag) + ')', 'gi');
+function getInjectorTagsRegExp (startTag, endTag) {
+  return new RegExp('([\t ]*)(' + escapeForRegExp(startTag) + ')(\\n|\\r|.)*?(' + escapeForRegExp(endTag) + ')', 'gi');
 }
 
 function getTag (tag, ext) {
