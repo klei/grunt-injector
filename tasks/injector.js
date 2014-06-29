@@ -11,6 +11,7 @@
 var path = require('path'),
     fs = require('fs'),
     _ = require('lodash'),
+    os = require('os'),
     ext = function (file) {
       return path.extname(file).slice(1);
     };
@@ -81,6 +82,19 @@ module.exports = function(grunt) {
           }));
         } else {
           files.push({path: filepath, key: ext(filepath)});
+        }
+        
+        // Clear existing content between injectors
+        var templateContent = options.templateString || grunt.file.read(template),
+          templateOriginal = templateContent;
+ 
+        var re = getInjectorTagsRegExp(options.starttag, options.endtag);
+        templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
+          return indent + starttag + os.EOL + indent + endtag;
+        });
+ 
+        if (templateContent !== templateOriginal || !grunt.file.exists(destination)) {
+          grunt.file.write(destination, templateContent);
         }
       });
 
@@ -157,7 +171,7 @@ function getInjectorTagsRegExp (starttag, endtag) {
 }
 
 function getTag (tag, ext) {
-  return tag.replace('{{ext}}', ext);
+  return tag.replace(new RegExp( escapeForRegExp('{{ext}}'), 'g'), ext);
 }
 
 function getFilesFromBower (bowerFile) {
@@ -241,6 +255,6 @@ function getIndentedTransformations (sources, indent) {
   });
   transformations.unshift('');
   transformations.push('');
-  return transformations.join('\n' + indent);
+  return transformations.join(os.EOL + '' + indent);
 }
 
