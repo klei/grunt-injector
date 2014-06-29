@@ -11,6 +11,7 @@
 var path = require('path'),
     fs = require('fs'),
     _ = require('lodash'),
+    os = require('os'),
     ext = function (file) {
       return path.extname(file).slice(1);
     };
@@ -241,6 +242,6 @@ function getIndentedTransformations (sources, indent) {
   });
   transformations.unshift('');
   transformations.push('');
-  return transformations.join('\n' + indent);
+  return transformations.join(os.EOL + '' + indent);
 }
 
