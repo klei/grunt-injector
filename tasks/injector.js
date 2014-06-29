@@ -25,6 +25,7 @@ module.exports = function(grunt) {
       template: null,
       bowerPrefix: null,
       addRootSlash: true,
+      ignoreFiles: null,
       startTag: '<!-- injector:{{ext}} -->',
       endTag: '<!-- endinjector -->',
       transform: function (filepath) {
@@ -38,6 +39,16 @@ module.exports = function(grunt) {
         }
       }
     });
+
+    //Make options.ignoreFiles a unique array
+    if(options.ignoreFiles === null){
+      options.ignoreFiles = [];
+    } else {
+      if (typeof options.ignoreFiles === 'string') {
+          options.ignoreFiles = [options.ignoreFiles];
+      }
+      options.ignoreFiles = _.uniq(options.ignoreFiles);
+    }
 
     if (!options.template && !options.templateString) {
       grunt.log.writeln('Missing option `template`, using `dest` as template instead'.grey);
@@ -133,6 +144,13 @@ module.exports = function(grunt) {
         _.forIn(_.groupBy(files, 'startTag'), function (sources, startTag) {
           var endTag = sources[0].endTag,
               key = sources[0].key;
+
+            //Remove all files from sources array which contain a string in the option.ignoreFiles
+            _.remove(sources,function(source){
+               return options.ignoreFiles.reduce(function(previous,current){
+                    return previous || (source.path.indexOf(current)> -1);
+                },false);
+            });
 
           // Transform to injection content:
           sources.forEach(function (obj, i) {

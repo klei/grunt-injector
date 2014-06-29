@@ -56,6 +56,12 @@ Default value: `NULL`
 
 A path or paths that should be removed from each injected file path.
 
+#### options.ignoreFiles
+Type: `String`|`Array`
+Default value: `NULL`
+
+Ignore Files containing the provided string / strings
+
 #### options.addRootSlash
 Type: `Boolean`
 Default value: `true`
