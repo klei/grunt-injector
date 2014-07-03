@@ -56,6 +56,12 @@ Default value: `NULL`
 
 A path or paths that should be removed from each injected file path.
 
+#### options.ignoreFiles
+Type: `String`|`Array`
+Default value: `NULL`
+
+Ignore Files containing the provided string / strings
+
 #### options.addRootSlash
 Type: `Boolean`
 Default value: `true`
@@ -74,14 +80,14 @@ Default value: `false`
 
 If set to `true` each injected file will be switched to its minified counterpart (i.e. *.min.<ext> files), if it exists that is otherwise the original file is used as usual.
 
-#### options.starttag
+#### options.startTag
 Type: `String`
 Default value: `<!-- injector:{{ext}} -->`
 
 Set the start tag that the injector is looking for. `{{ext}}` is replaced with file extension name, e.g. "css", "js" or "html".
 The extension for files collected from from Bower components is prepended with option `bowerPrefix` if given.
 
-#### options.endtag
+#### options.endTag
 Type: `String`
 Default value: `<!-- endinjector -->`
 
@@ -179,7 +185,7 @@ index.html:
 The `grunt-injector` can be used to inject your installed Bower Components as well.
 To do this the module [wiredep](https://github.com/stephenplusplus/wiredep) is used, and here's how the configuration can look like in that case:
 
-**N.B** From version **0.5.0** the `{{ext}}` in the starttag is not prefixed with `bower:` by default anymore! To keep the old behaviour set the `bowerPrefix` to "bower:".
+**N.B** From version **0.5.0** the `{{ext}}` in the startTag is not prefixed with `bower:` by default anymore! To keep the old behaviour set the `bowerPrefix` to "bower:".
 
 Gruntfile.js:
 

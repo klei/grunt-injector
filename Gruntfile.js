@@ -44,8 +44,8 @@ module.exports = function(grunt) {
         options: {
           template: null,
           templateString: '{\n  "js": []\n}',
-          starttag: '"{{ext}}": [',
-          endtag: ']',
+          startTag: '"{{ext}}": [',
+          endTag: ']',
           transform: function (file, i, length) {
             return '  "' + file + '"' + (i + 1 < length ? ',' : '');
           }
@@ -129,8 +129,8 @@ module.exports = function(grunt) {
       custom: {
         options: {
           template: 'test/fixtures/custom.tpl',
-          starttag: '/** tagstart */',
-          endtag: '/** tagend */',
+          startTag: '/** tagstart */',
+          endTag: '/** tagend */',
           transform: function (file) {
             return "  {ext: '" + path.extname(file).slice(1) + "', file: '" + file + "'},";
           },
@@ -142,8 +142,8 @@ module.exports = function(grunt) {
       customSort: {
         options: {
           template: 'test/fixtures/custom.tpl',
-          starttag: '/** tagstart */',
-          endtag: '/** tagend */',
+          startTag: '/** tagstart */',
+          endTag: '/** tagend */',
           transform: function (file) {
             return "  {ext: '" + path.extname(file).slice(1) + "', file: '" + file + "'},";
           },
