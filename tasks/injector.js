@@ -91,7 +91,7 @@ module.exports = function(grunt) {
 
       var re = getInjectorTagsRegExp(options.starttag, options.endtag);
       templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
-        return indent + starttag + '\n' + indent + endtag;
+        return indent + starttag + options.lineEnding + indent + endtag;
       });
 
       if (templateContent !== templateOriginal || !grunt.file.exists(destination)) {
