@@ -95,6 +95,12 @@ Default value: `NULL`
 Set prefix for file extension when replacing `{{ext}}` in start and end tag (see above).
 **Added in v.0.5.0.** To keep old behaviour set this to "bower:". See *Bower dependency injection* below as well.
 
+#### options.lineEnding
+Type: `String`
+Default value: `\n`
+
+Configure what `lineEnding` character(s) to use between injections.
+
 #### options.transform
 Type: `Function`
 Params: `filepath`, `index` (0-based file index), `length` (total number of files to inject)
@@ -221,6 +227,13 @@ For more advanced task configurations see the `Gruntfile.js` in this repository 
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+**0.5.3** - 2014-07-16
+
+- Fixing `addRootSlash=false` problem with `ignorePath` [#10](https://github.com/klei/grunt-injector/issues/10)
+- Adding `lineEnding` option [#8](https://github.com/klei/grunt-injector/pull/8)
+- Clearing content before injection [#3](https://github.com/klei/grunt-injector/pull/3)
+- Allow multiple uses of `{{ext}}` in tags [#5](https://github.com/klei/grunt-injector/pull/5)
 
 **0.5.2** - 2014-03-05 - Getting bower components directory from `.bowerrc` file if it exists (Fixes: [#2](https://github.com/klei/grunt-injector/issues/2))
 
