@@ -70,6 +70,15 @@ module.exports = function(grunt) {
           'tmp/noAddRootSlash.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
         }
       },
+      noAddRootSlashWithIgnorePath: {
+        options: {
+          addRootSlash: false,
+          ignorePath: 'test'
+        },
+        files: {
+          'tmp/noAddRootSlashWithIgnorePath.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
+        }
+      },
       expandFiles: {
         options: {
           ignorePath: 'test/fixtures',

@@ -120,6 +120,8 @@ module.exports = function(grunt) {
           }
           if (options.addRootSlash) {
             file = addRootSlash(file);
+          } else {
+            file = removeRootSlash(file);
           }
           obj.file = file;
         });
@@ -232,6 +234,9 @@ function toArray (arr) {
 
 function addRootSlash (filepath) {
   return filepath.replace(/^\/*([^\/])/, '/$1');
+}
+function removeRootSlash (filepath) {
+  return filepath.replace(/^\/+/, '');
 }
 
 function removeBasePath (basedir, filepath) {
