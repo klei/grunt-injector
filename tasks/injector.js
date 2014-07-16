@@ -26,6 +26,7 @@ module.exports = function(grunt) {
       addRootSlash: true,
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
+      lineEnding: '\n',
       transform: function (filepath) {
         var e = ext(filepath);
         if (e === 'css') {
@@ -148,7 +149,7 @@ module.exports = function(grunt) {
           var re = getInjectorTagsRegExp(starttag, endtag);
           templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
             grunt.log.writeln('Injecting ' + key.green + ' files ' + ('(' + sources.length + ' files)').grey);
-            return indent + starttag + getIndentedTransformations(sources, indent) + endtag;
+            return indent + starttag + getIndentedTransformations(sources, indent, options.lineEnding) + endtag;
           });
         });
 
@@ -247,12 +248,12 @@ function escapeForRegExp (str) {
   return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 
-function getIndentedTransformations (sources, indent) {
+function getIndentedTransformations (sources, indent, lineEnding) {
   var transformations = sources.map(function (s) {
     return s.transformed;
   });
   transformations.unshift('');
   transformations.push('');
-  return transformations.join('\n' + indent);
+  return transformations.join(lineEnding + indent);
 }
 
