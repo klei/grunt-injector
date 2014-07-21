@@ -185,11 +185,11 @@ function getFilesFromBower (bowerFile) {
     );
      
   // Pluck out just the JS and CSS Dependencies
-  var filteredDepedencies = _.pick(dependencies,'css','js');
+  var filteredDependencies = _.pick(dependencies,'css','js');
   
   // Concatenate into a filepaths array   
-  return Object.keys(filteredDepedencies).reduce(function (files, key) {
-       return files.concat(filteredDepedencies[key]);
+  return Object.keys(filteredDependencies).reduce(function (files, key) {
+       return files.concat(filteredDependencies[key]);
     }, []);
 }
 
