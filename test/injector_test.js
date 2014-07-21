@@ -135,6 +135,15 @@ exports.injector = {
 
     test.done();
   },
+  bowerWithOverrides: function(test){
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/bowerWithOverrides.html');
+    var expected = grunt.file.read('test/expected/bowerWithOverrides.html');
+    test.equal(actual, expected,'should inject dependencies installed with bower, and it should take the bower `overrides` declaration into account.');
+  
+    test.done();
+  },
   custom: function(test) {
     test.expect(1);
 

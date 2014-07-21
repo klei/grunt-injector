@@ -176,23 +176,21 @@ function getTag (tag, ext) {
 }
 
 function getFilesFromBower (bowerFile) {
-  // Load bower dependencies with `wiredep`:
-  var helpers = require('wiredep/lib/helpers'),
-      config = helpers.createStore();
-
-  config.set
-    ('warnings', [])
-    ('global-dependencies', helpers.createStore())
-    ('bower.json', JSON.parse(fs.readFileSync(bowerFile, 'utf8')))
-    ('directory', getBowerComponentsDir(bowerFile));
-
-  require('wiredep/lib/detect-dependencies')(config);
-
-  var deps = config.get('global-dependencies-sorted');
-
-  return Object.keys(deps).reduce(function (files, key) {
-    return files.concat(deps[key]);
-  }, []);
+  
+  // Load bower dependencies via `wiredep` programmatic access
+  var dependencies = require('wiredep')({
+        'bowerJson': JSON.parse(fs.readFileSync(bowerFile, 'utf8')),
+        'directory': getBowerComponentsDir(bowerFile)
+      } 
+    );
+     
+  // Pluck out just the JS and CSS Dependencies
+  var filteredDepedencies = _.pick(dependencies,'css','js');
+  
+  // Concatenate into a filepaths array   
+  return Object.keys(filteredDepedencies).reduce(function (files, key) {
+       return files.concat(filteredDepedencies[key]);
+    }, []);
 }
 
 function getBowerComponentsDir (bowerFile) {
