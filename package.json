@@ -46,7 +46,7 @@
     "bower"
   ],
   "dependencies": {
-    "wiredep": "~0.4.2",
+    "wiredep": "~1.7.0",
     "lodash": "~2.4.1"
   }
 }
