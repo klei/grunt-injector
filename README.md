@@ -228,6 +228,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+**0.5.4** - 2014-07-22 - Now able to handle overrides in `bower.json` ([#11](https://github.com/klei/grunt-injector/pull/11))
+
 **0.5.3** - 2014-07-16
 
 - Fixing `addRootSlash=false` problem with `ignorePath` [#10](https://github.com/klei/grunt-injector/issues/10)
