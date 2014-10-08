@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       addRootSlash: true,
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
-      lineEnding: '\n',
+      lineEnding: grunt.util.linefeed,
       transform: function (filepath) {
         var e = ext(filepath);
         if (e === 'css') {
