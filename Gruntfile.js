@@ -79,6 +79,19 @@ module.exports = function(grunt) {
           'tmp/noAddRootSlashWithIgnorePath.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
         }
       },
+      relativePaths: {
+        options: {
+          relative: true
+        },
+        files: {
+          'tmp/relativePaths.html': [
+            'test/fixtures/*.js',
+            'test/fixtures/*.css',
+            'test/fixtures/component.html',
+            '!test/fixtures/*.min.*'
+          ]
+        }
+      },
       expandFiles: {
         options: {
           ignorePath: 'test/fixtures',

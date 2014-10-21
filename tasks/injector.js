@@ -23,7 +23,14 @@ module.exports = function(grunt) {
       min: false,
       template: null,
       bowerPrefix: null,
-      addRootSlash: true,
+      relative: false,
+      addRootSlash: (function (that) {
+        var addRootSlash = true;
+        if (that.data.options) {
+          addRootSlash = that.data.options.addRootSlash || !that.data.options.relative;
+        }
+        return addRootSlash;
+      })(this),
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
       lineEnding: '\n',
@@ -113,7 +120,12 @@ module.exports = function(grunt) {
           obj.endtag = getTag(options.endtag, obj.key);
 
           // Fix filename (remove ignorepaths and such):
-          var file = unixify(obj.path);
+          var file = obj.path;
+          if (options.relative) {
+            var base =  path.dirname(destination);
+            file = path.relative(base, file);
+          }
+          file = unixify(file);
           file = makeMinifiedIfNeeded(options.min, file);
           if (options.ignorePath || obj.ignore) {
             file = removeBasePath(toArray(options.ignorePath).concat(toArray(obj.ignore)), file);
