@@ -58,9 +58,15 @@ A path or paths that should be removed from each injected file path.
 
 #### options.addRootSlash
 Type: `Boolean`
-Default value: `true`
+Default value: `!options.relative`
 
 Specifies if a root slash (`/`) should be added to all paths.
+
+#### options.relative
+Type: `Boolean`
+Default value: `true`
+
+Specifies if relative paths should be injected.
 
 #### options.destFile
 Type: `String`
@@ -227,6 +233,8 @@ For more advanced task configurations see the `Gruntfile.js` in this repository 
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+**0.6.0** - 2014-11-07 - Adding `relative` option ([#15](https://github.com/klei/grunt-injector/pull/15))
 
 **0.5.4** - 2014-07-22 - Now able to handle overrides in `bower.json` ([#11](https://github.com/klei/grunt-injector/pull/11))
 
