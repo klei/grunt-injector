@@ -116,9 +116,10 @@ module.exports = function(grunt) {
         // Remove possible duplicates:
         files = _.uniq(files);
 
-        var target = (options.groupByTarget)) ? obj.key : me.target;
-
         files.forEach(function (obj) {
+          
+          var target = options.groupByTarget ? me.target : obj.key;
+
           // Get start and end tag for each file:
           obj.starttag = getTag(options.starttag, target);
           obj.endtag = getTag(options.endtag, target);
