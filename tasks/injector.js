@@ -34,6 +34,7 @@ module.exports = function(grunt) {
       })(this),
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
+      groupByTarget: false,
       lineEnding: '\n',
       transform: function (filepath) {
         var e = ext(filepath);
@@ -115,10 +116,12 @@ module.exports = function(grunt) {
         // Remove possible duplicates:
         files = _.uniq(files);
 
+        var target = (options.groupByTarget)) ? obj.key : me.target;
+
         files.forEach(function (obj) {
           // Get start and end tag for each file:
-          obj.starttag = getTag(options.starttag, me.target);
-          obj.endtag = getTag(options.endtag, me.target);
+          obj.starttag = getTag(options.starttag, target);
+          obj.endtag = getTag(options.endtag, target);
 
           // Fix filename (remove ignorepaths and such):
           var file = obj.path;
