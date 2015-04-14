@@ -153,6 +153,27 @@ module.exports = function(grunt) {
           'tmp/bowerWithOverrides.html': ['test/fixtures/bower_overrides/bower.json']
         }
       },
+      bowerWithWiredepOptions: {
+        options: {
+          wiredepOptions: {
+            devDependencies: true
+          }
+        },
+        files: {
+          'tmp/bowerWithWiredepOptions.html': ['test/fixtures/bower_dev_and_min/bower.json']
+        }
+      },
+      bowerWithWiredepOptionsMin: {
+        options: {
+          min: true,
+          wiredepOptions: {
+            devDependencies: true
+          }
+        },
+        files: {
+          'tmp/bowerWithWiredepOptionsMin.html': ['test/fixtures/bower_dev_and_min/bower.json']
+        }
+      },
       custom: {
         options: {
           template: 'test/fixtures/custom.tpl',

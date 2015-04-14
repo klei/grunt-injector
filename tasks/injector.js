@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 
         // Special handling of bower.json:
         if (path.basename(filepath) === 'bower.json') {
-          files.push.apply(files, getFilesFromBower(filepath).map(function (fpath) {
+          files.push.apply(files, getFilesFromBower(filepath, options.wiredepOptions).map(function (fpath) {
             return {path: fpath, ignore: path.dirname(filepath), key: (options.bowerPrefix || '') + ext(fpath)};
           }));
         } else {
@@ -187,14 +187,14 @@ function getTag (tag, ext) {
   return tag.replace(new RegExp( escapeForRegExp('{{ext}}'), 'g'), ext);
 }
 
-function getFilesFromBower (bowerFile) {
+function getFilesFromBower (bowerFile, _wiredepOptions) {
   
   // Load bower dependencies via `wiredep` programmatic access
-  var dependencies = require('wiredep')({
+  var wiredepOptions = _.extend({
         'bowerJson': JSON.parse(fs.readFileSync(bowerFile, 'utf8')),
         'directory': getBowerComponentsDir(bowerFile)
-      } 
-    );
+      }, _wiredepOptions),
+      dependencies = require('wiredep')(wiredepOptions);
      
   // Pluck out just the JS and CSS Dependencies
   var filteredDependencies = _.pick(dependencies,'css','js');

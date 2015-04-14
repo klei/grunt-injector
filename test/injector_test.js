@@ -153,6 +153,24 @@ exports.injector = {
   
     test.done();
   },
+  bowerWithWiredepOptions: function(test){
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/bowerWithWiredepOptions.html');
+    var expected = grunt.file.read('test/expected/bowerWithWiredepOptions.html');
+    test.equal(actual, expected,'should inject dependencies installed with bower, and it should take `wiredepOptions` options into account.');
+
+    test.done();
+  },
+  bowerWithWiredepOptionsMin: function(test){
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/bowerWithWiredepOptionsMin.html');
+    var expected = grunt.file.read('test/expected/bowerWithWiredepOptionsMin.html');
+    test.equal(actual, expected,'should inject minified dependencies installed with bower if they exist and `min` option is true, and it should take `wiredepOptions` options into account.');
+
+    test.done();
+  },
   custom: function(test) {
     test.expect(1);
 
