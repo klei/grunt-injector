@@ -39,7 +39,7 @@ module.exports = function(grunt) {
         if (e === 'css') {
           return '<link rel="stylesheet" href="' + filepath + '">';
         } else if (e === 'js') {
-          return '<script src="' + filepath + '"></script>';
+          return '<script type="application/javascript" src="' + filepath + '"></script>';
         } else if (e === 'html') {
           return '<link rel="import" href="' + filepath + '">';
         }
