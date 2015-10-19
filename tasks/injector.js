@@ -121,12 +121,12 @@ module.exports = function(grunt) {
 
           // Fix filename (remove ignorepaths and such):
           var file = obj.path;
+          file = makeMinifiedIfNeeded(options.min, file);
           if (options.relative) {
             var base =  path.dirname(destination);
             file = path.relative(base, file);
           }
           file = unixify(file);
-          file = makeMinifiedIfNeeded(options.min, file);
           if (options.ignorePath || obj.ignore) {
             file = removeBasePath(toArray(options.ignorePath).concat(toArray(obj.ignore)), file);
           }
