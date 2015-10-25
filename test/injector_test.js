@@ -170,5 +170,23 @@ exports.injector = {
     test.equal(actual, expected, 'should inject files ordered with a custom sorting function.');
 
     test.done();
+  },
+  groupByTarget: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/groupByTarget.html');
+    var expected = grunt.file.read('test/expected/groupByTarget.html');
+    test.equal(actual, expected, 'should inject stylesheets, scripts and html components into the <!-- injector:groupByTarget --> wrapper.');
+
+    test.done();
+  },
+  groupByTargetWithCustomTarget: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/groupByTargetWithCustomTarget.html');
+    var expected = grunt.file.read('test/expected/groupByTargetWithCustomTarget.html');
+    test.equal(actual, expected, 'should inject stylesheets, scripts and html components into the <!-- injector:customTarget --> wrapper.');
+
+    test.done();
   }
 };

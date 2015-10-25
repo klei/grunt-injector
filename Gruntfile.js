@@ -181,7 +181,28 @@ module.exports = function(grunt) {
         },
         src: ['test/fixtures/script.js', 'test/fixtures/style.css', 'test/fixtures/component.html'],
         dest: 'tmp/customSort.js'
+      },
+
+      groupByTarget: {
+        options: {
+          template: 'test/fixtures/index-grouped.html',
+          groupByTarget: true
+        },
+        files: {
+          'tmp/groupByTarget.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
+        }
+      },
+      groupByTargetWithCustomTarget: {
+        options: {
+          template: 'test/fixtures/index-grouped.html',
+          groupByTarget: true,
+          target: 'customTarget'
+        },
+        files: {
+          'tmp/groupByTargetWithCustomTarget.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
+        }
       }
+
     },
 
     // Unit tests.
