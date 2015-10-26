@@ -266,7 +266,6 @@ function escapeForRegExp (str) {
 }
 
 // Remove the entry whose transformed string is empty since we don't want to inject empty string.
-// This is one "trick" for user to filter out unwanted files.
 function removeEmptySources (sources) {
     return _.reject(sources, function (obj) {
         return _.isEmpty(obj.transformed);
