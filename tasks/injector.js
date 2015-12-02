@@ -33,7 +33,7 @@ module.exports = function(grunt) {
       })(this),
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
-      lineEnding: '\n',
+      lineEnding: null,
       transform: function (filepath) {
         var e = ext(filepath);
         if (e === 'css') {
@@ -46,8 +46,20 @@ module.exports = function(grunt) {
       }
     });
 
+    var useDestTpl = false;
     if (!options.template && !options.templateString) {
       grunt.log.writeln('Missing option `template`, using `dest` as template instead'.grey);
+      useDestTpl = true;
+    }
+    
+    if (!options.lineEnding) {
+      var destination = options.template || options.templateString;
+      if (useDestTpl) {
+        destination = options.destFile;
+      }
+      var contents = String(grunt.file.read(destination));
+      var returnType = /\r\n/.test(contents) ? '\r\n' : '\n';
+      options.lineEnding = returnType;
     }
 
     var filesToInject = {};
