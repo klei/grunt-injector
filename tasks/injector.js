@@ -54,10 +54,15 @@ module.exports = function(grunt) {
     
     if (!options.lineEnding) {
       var destination = options.template || options.templateString;
+      var contents = '';
       if (useDestTpl) {
         destination = options.destFile;
       }
-      var contents = String(grunt.file.read(destination));
+      if (options.templateString) {
+        contents = options.templateString;  
+      } else {
+        contents = String(grunt.file.read(destination));    
+      }
       var returnType = /\r\n/.test(contents) ? '\r\n' : '\n';
       options.lineEnding = returnType;
     }
