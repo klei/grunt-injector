@@ -1,5 +1,13 @@
 # grunt-injector
 
+# HELP WANTED!
+
+**I don't have enough time to maintain this plugin as I would want to, so I'm looking for people who want to help out and be contributors/repository admins.**
+
+## Interested?
+
+**Contact me! See `package.json` for contact information.**
+
 > Inject references to files into other files (think scripts and stylesheets into an html file)
 
 ## Getting Started

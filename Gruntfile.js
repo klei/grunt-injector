@@ -92,6 +92,17 @@ module.exports = function(grunt) {
           ]
         }
       },
+      relativePathsAndExpand: {
+        options: {
+          relative: true,
+          destFile: 'tmp/relativeExpanded.html'
+        },
+        files: [{
+          expand: true,
+          cwd: 'test/fixtures',
+          src: ['*.js', '*.css', 'component.html', '!*.min.*']
+        }]
+      },
       expandFiles: {
         options: {
           ignorePath: 'test/fixtures',

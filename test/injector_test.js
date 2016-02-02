@@ -81,6 +81,15 @@ exports.injector = {
 
     test.done();
   },
+  relativePathsAndExpanded: function (test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/relativeExpanded.html');
+    var expected = grunt.file.read('test/expected/relativePaths.html');
+    test.equal(actual, expected, 'should inject expanded stylesheets, scripts and html components with relative paths.');
+
+    test.done();
+  },
   expanded: function(test) {
     test.expect(1);
 
