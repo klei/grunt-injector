@@ -1,0 +1,7 @@
+{
+  "name": "fake-dev",
+  "main": [
+    "fake-dev.js",
+    "fake-dev.css"
+  ]
+}
