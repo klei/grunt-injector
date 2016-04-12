@@ -164,6 +164,11 @@ module.exports = function(grunt) {
           'tmp/bowerWithOverrides.html': ['test/fixtures/bower_overrides/bower.json']
         }
       },
+      bowerWithoutCss: {
+        files: {
+          'tmp/bowerWithoutCss.html': ['test/fixtures/bower_without_css/bower.json']
+        }
+      },
       custom: {
         options: {
           template: 'test/fixtures/custom.tpl',
