@@ -19,7 +19,8 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('injector', 'Inject references to files into other files (think scripts and stylesheets into an html file)', function() {
     // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
+    var me = this,
+    options = this.options({
       min: false,
       template: null,
       bowerPrefix: null,
@@ -33,6 +34,7 @@ module.exports = function(grunt) {
       })(this),
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
+      groupByTarget: false,
       lineEnding: '\n',
       transform: function (filepath) {
         var e = ext(filepath);
@@ -115,9 +117,12 @@ module.exports = function(grunt) {
         files = _.uniq(files);
 
         files.forEach(function (obj) {
+          
+          var target = options.groupByTarget ? (options.target ? options.target : me.target) : obj.key;
+          
           // Get start and end tag for each file:
-          obj.starttag = getTag(options.starttag, obj.key);
-          obj.endtag = getTag(options.endtag, obj.key);
+          obj.starttag = getTag(options.starttag, target);
+          obj.endtag = getTag(options.endtag, target);
 
           // Fix filename (remove ignorepaths and such):
           var file = obj.path;

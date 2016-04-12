@@ -135,6 +135,20 @@ If set the given function is used as the compareFunction for the array sort func
 
 **N.B.** Shouldn't be used in conjunction with a `bower.json` file as source, because [wiredep](https://github.com/stephenplusplus/wiredep), which collects Bower installed dependencies, has some intelligent sorting built in.
 
+#### options.groupByTarget
+Type: `String`
+Default value: `false`
+
+When set to `true` the start tag behaviour is changed. Instead of using `<!-- injector:{{ext}} -->` to group files by there extension, you can specify your own group key like `<!-- injector:customKey -->`. All files are inserted between the tags regardless of the file extension. By default the attribute name as specified in the guntfile is used. (See example below.)
+
+#### options.target
+Type: `String`
+Default value: `false`
+
+By default the attribute name as specified in the guntfile is used. If you want use a different keyname you can use `target: 'yourKeyName'`. (See example below.)
+
+**N.B.** groupByTarget must be set to `true`.
+
 ### Usage Examples
 
 #### Injecting into html file with default options
@@ -153,6 +167,12 @@ index.html:
 
   <!-- injector:js -->
   <!-- endinjector -->
+  
+  <!-- injector:groupA -->
+  <!-- endinjector -->
+  
+  <!-- injector:yourKeyName -->
+  <!-- endinjector -->
 </body>
 </html>
 ```
@@ -163,6 +183,23 @@ grunt.initConfig({
   injector: {
     options: {},
     local_dependencies: {
+      files: {
+        'index.html': ['**/*.js', '**/*.css'],
+      }
+    },
+    groupA:{
+      options: {
+        groupByTarget: true
+      },
+      files: {
+        'index.html': ['**/*.js', '**/*.css'],
+      }
+    },
+    groupB:{
+      options: {
+        groupByTarget: true,
+        target: 'yourKeyName'
+      },
       files: {
         'index.html': ['**/*.js', '**/*.css'],
       }
