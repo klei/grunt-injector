@@ -111,7 +111,7 @@ Set prefix for file extension when replacing `{{ext}}` in start and end tag (see
 
 #### options.lineEnding
 Type: `String`
-Default value: `\n`
+Default value: [grunt.util.lineFeed](http://gruntjs.com/api/grunt.util#grunt.util.linefeed)
 
 Configure what `lineEnding` character(s) to use between injections.
 
