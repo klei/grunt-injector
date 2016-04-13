@@ -179,5 +179,13 @@ exports.injector = {
     test.equal(actual, expected, 'should inject files ordered with a custom sorting function.');
 
     test.done();
+  },
+  bowerWithoutCss: function(test) {
+    test.expect(1);
+    var actual = grunt.file.read('tmp/bowerWithoutCss.html');
+    var expected = grunt.file.read('test/expected/bowerWithoutCss.html');
+    test.equal(actual, expected, 'should inject the bower javascript files and not leave empty spaces in the header since there is no css.');
+
+    test.done();
   }
 };

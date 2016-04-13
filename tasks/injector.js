@@ -152,6 +152,8 @@ module.exports = function(grunt) {
             obj.transformed = options.transform(obj.file, i, sources.length);
           });
 
+          sources = removeEmptySources(sources);
+
           // Sort files if needed:
           if (typeof options.sort === 'function') {
             sources.sort(function (a, b) {
@@ -261,6 +263,13 @@ function removeBasePath (basedir, filepath) {
 
 function escapeForRegExp (str) {
   return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
+// Remove the entry whose transformed string is empty since we don't want to inject empty string.
+function removeEmptySources (sources) {
+    return _.reject(sources, function (obj) {
+        return _.isEmpty(obj.transformed);
+    });
 }
 
 function getIndentedTransformations (sources, indent, lineEnding) {
