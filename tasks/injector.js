@@ -153,7 +153,7 @@ module.exports = function(grunt) {
           } else {
             file = removeRootSlash(file);
           }
-          obj.file = otions.prefix + file;
+          obj.file = options.prefix + file;
         });
 
         // Read template:
