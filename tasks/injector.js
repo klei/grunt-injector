@@ -24,6 +24,7 @@ module.exports = function(grunt) {
       template: null,
       bowerPrefix: null,
       relative: false,
+      prefix: '',
       addRootSlash: (function (that) {
         var addRootSlash = true;
         if (that.data.options) {
@@ -152,7 +153,7 @@ module.exports = function(grunt) {
           } else {
             file = removeRootSlash(file);
           }
-          obj.file = file;
+          obj.file = otions.prefix + file;
         });
 
         // Read template:
