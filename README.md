@@ -102,6 +102,12 @@ Default value: `<!-- endinjector -->`
 Set the end tag that the injector is looking for. `{{ext}}` is replaced with file extension name, e.g. "css", "js" or "html".
 The extension for files collected from from Bower components is prepended with option `bowerPrefix` if given.
 
+#### options.prefix
+Type: `String`
+Default value: ``
+
+Set the prefix to append to the beginning of each injected file. Useful to change the directory name in combination with ignorePath.
+
 #### options.bowerPrefix
 Type: `String`
 Default value: `NULL`
