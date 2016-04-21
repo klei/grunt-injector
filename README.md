@@ -104,7 +104,7 @@ The extension for files collected from from Bower components is prepended with o
 
 #### options.prefix
 Type: `String`
-Default value: ``
+Default value: `''`
 
 Set the prefix to append to the beginning of each injected file. Useful to change the directory name in combination with ignorePath.
 
