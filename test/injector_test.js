@@ -36,6 +36,15 @@ exports.injector = {
 
     test.done();
   },
+  prefix: function(test) {
+    test.expect(1);
+   
+    var actual = grunt.file.read('tmp/prefix.html');
+    var expected = grunt.file.read('test/expected/prefix.html');
+    test.equal(actual, expected, 'should inject stylesheets, scripts and html components into desired file having a prefix added.');
+    
+    test.done();
+  },
   templateString: function(test) {
     test.expect(1);
 

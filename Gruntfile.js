@@ -40,6 +40,14 @@ module.exports = function(grunt) {
           'tmp/defaults.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
         }
       },
+      prefix: {
+        options: {
+          prefix: 'abc'
+        },
+        files: {
+          'tmp/prefix.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
+        }
+      },
       templateString: {
         options: {
           template: null,
