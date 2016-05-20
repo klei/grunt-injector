@@ -52,23 +52,13 @@ module.exports = function(grunt) {
       grunt.log.writeln('Missing option `template`, using `dest` as template instead'.grey);
       useDestTpl = true;
     }
-    
-    if (!options.lineEnding) {
-      var destination = options.template || options.templateString;
-      var contents = '';
-      if (useDestTpl) {
-        destination = options.destFile;
-      }
-      if (options.templateString) {
-        contents = options.templateString;  
-      } else {
-        contents = String(grunt.file.read(destination));    
-      }
-      var returnType = /\r\n/.test(contents) ? '\r\n' : '\n';
-      options.lineEnding = returnType;
-    }
 
     var filesToInject = {};
+
+    if (!options.lineEnding) {
+      var that = this;
+      options.lineEnding = getDefaultLineEnding(options, that, grunt);
+    }
 
     // Iterate over all specified file groups and gather files to inject:
 
@@ -297,5 +287,38 @@ function getIndentedTransformations (sources, indent, lineEnding) {
   transformations.unshift('');
   transformations.push('');
   return transformations.join(lineEnding + indent);
+}
+
+
+function getDefaultLineEnding(options, that, grunt) {
+  var contents = '';
+  
+  // when destination file is a template
+  var destination = options.template || options.templateString;
+
+  // when destination file is destFile
+  if (options.destFile) {
+    destination = options.destFile;
+  }
+
+  // if the destination file does not exist yet
+  // try to figure out lineEnding through src files
+  if (!grunt.file.exists(that.files[0].dest)) {
+    destination = that.filesSrc[0];
+  } else {
+    destination = that.files[0].dest;
+  }
+  
+  if (typeof destination === 'undefined') {
+    grunt.log.error('No template found, unable to guess line ending character.');
+  } else {
+    if (options.templateString) {
+      contents = options.templateString;
+    } else {
+      contents = String(grunt.file.read(destination));
+    }
+  }
+
+  return /\r\n/.test(contents) ? '\r\n' : '\n';
 }
 
