@@ -119,9 +119,10 @@ Set prefix for file extension when replacing `{{ext}}` in start and end tag (see
 
 #### options.lineEnding
 Type: `String`
-Default value: `\n`
+Default value: `null`
 
 Configure what `lineEnding` character(s) to use between injections.
+If no value specified, `grunt injector` will try to figure out the default line ending character(s) from template files.
 
 #### options.transform
 Type: `Function`
