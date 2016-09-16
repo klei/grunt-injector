@@ -135,6 +135,12 @@ Default value: a function that returns:
 
 Used to generate the content to inject for each file.
 
+#### options.clean
+Type: `Boolean`
+Default value: `false`
+
+Set to `true` to clean all the files listed between the `inject` tags.
+
 #### options.sort
 Type: `Function`
 Params: `a`, `b` (is used as `compareFunction` for [Array.prototype.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort))
@@ -239,6 +245,63 @@ index.html:
 
   <!-- injector:js -->
   <!-- endinjector -->
+</body>
+</html>
+```
+
+#### Remove all the injection for a specific environment
+
+index.html:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Example</title>
+</head>
+<body>
+
+  <!-- injector:js -->
+  <script src="scripts/mock/mock-service.js"></script>
+  <!-- endinjector -->
+</body>
+</html>
+```
+Gruntfile.js:
+
+```js
+grunt.initConfig({
+  injector: {
+    dev: {
+      options: {},
+      files: {
+        'index.html': ['script/mock/*.js'],
+      }
+    },
+    dist: {
+      options: {
+        clean: true
+      },
+      files: {
+        'index.html': [],
+      }
+    }
+  }
+})
+```
+
+**After injection**
+
+index.html:
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Example</title>
+</head>
+<body>
+
+  <!-- injector:js --><!-- endinjector -->
 </body>
 </html>
 ```
