@@ -25,6 +25,7 @@ module.exports = function(grunt) {
       bowerPrefix: null,
       relative: false,
       prefix: '',
+      postfix: '',
       addRootSlash: (function (that) {
         var addRootSlash = true;
         if (that.data.options) {
@@ -35,14 +36,17 @@ module.exports = function(grunt) {
       starttag: '<!-- injector:{{ext}} -->',
       endtag: '<!-- endinjector -->',
       lineEnding: null,
-      transform: function (filepath) {
-        var e = ext(filepath);
+      transform: function (filePath) {
+
+        var e = ext(filePath);
+        var pathToInject = filePath + options.postfix;
+        
         if (e === 'css') {
-          return '<link rel="stylesheet" href="' + filepath + '">';
+          return '<link rel="stylesheet" href="' + pathToInject + '">';
         } else if (e === 'js') {
-          return '<script src="' + filepath + '"></script>';
+          return '<script src="' + pathToInject + '"></script>';
         } else if (e === 'html') {
-          return '<link rel="import" href="' + filepath + '">';
+          return '<link rel="import" href="' + pathToInject + '">';
         }
       }
     });
