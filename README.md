@@ -110,6 +110,12 @@ Default value: `''`
 
 Set the prefix to append to the beginning of each injected file. Useful to change the directory name in combination with ignorePath.
 
+#### options.postfix
+Type: `String`
+Default value: `''`
+
+Set the postfix to append to the end of each injected file. Useful to reset cached resources like "/path/to/script.js?offset01".
+
 #### options.bowerPrefix
 Type: `String`
 Default value: `NULL`
