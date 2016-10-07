@@ -38,11 +38,20 @@ exports.injector = {
   },
   prefix: function(test) {
     test.expect(1);
-   
+
     var actual = grunt.file.read('tmp/prefix.html');
     var expected = grunt.file.read('test/expected/prefix.html');
     test.equal(actual, expected, 'should inject stylesheets, scripts and html components into desired file having a prefix added.');
-    
+
+    test.done();
+  },
+  postfix: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/postfix.html');
+    var expected = grunt.file.read('test/expected/postfix.html');
+    test.equal(actual, expected, 'should inject stylesheets, scripts and html components into desired file having a prefix added.');
+
     test.done();
   },
   templateString: function(test) {
@@ -168,7 +177,7 @@ exports.injector = {
     var actual = grunt.file.read('tmp/bowerWithOverrides.html');
     var expected = grunt.file.read('test/expected/bowerWithOverrides.html');
     test.equal(actual, expected,'should inject dependencies installed with bower, and it should take the bower `overrides` declaration into account.');
-  
+
     test.done();
   },
   custom: function(test) {

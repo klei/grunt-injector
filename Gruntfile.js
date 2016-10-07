@@ -48,6 +48,14 @@ module.exports = function(grunt) {
           'tmp/prefix.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
         }
       },
+      postfix: {
+        options: {
+          postfix: '?offset1234567'
+        },
+        files: {
+          'tmp/postfix.html': ['test/fixtures/*.js', 'test/fixtures/*.css', 'test/fixtures/component.html', '!test/fixtures/*.min.*']
+        }
+      },
       templateString: {
         options: {
           template: null,
