@@ -299,14 +299,14 @@ function getDefaultLineEnding(options, that, grunt) {
   // when destination file is destFile
   if (options.destFile) {
     destination = options.destFile;
-  }
-
-  // if the destination file does not exist yet
-  // try to figure out lineEnding through src files
-  if (!grunt.file.exists(that.files[0].dest)) {
-    destination = that.filesSrc[0];
   } else {
-    destination = that.files[0].dest;
+    //if the destination file does not exist yet
+	  // try to figure out lineEnding through src files
+    if (!grunt.file.exists(that.files[0].dest)) {
+      destination = that.filesSrc[0];
+    } else {
+      destination = that.files[0].dest;
+    }
   }
   
   if (typeof destination === 'undefined') {
@@ -315,10 +315,10 @@ function getDefaultLineEnding(options, that, grunt) {
     if (options.templateString) {
       contents = options.templateString;
     } else {
+    	console.log(destination);
       contents = String(grunt.file.read(destination));
     }
   }
 
   return /\r\n/.test(contents) ? '\r\n' : '\n';
 }
-
