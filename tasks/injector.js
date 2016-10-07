@@ -315,7 +315,6 @@ function getDefaultLineEnding(options, that, grunt) {
     if (options.templateString) {
       contents = options.templateString;
     } else {
-    	console.log(destination);
       contents = String(grunt.file.read(destination));
     }
   }
