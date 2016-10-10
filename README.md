@@ -259,6 +259,22 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+**1.1.0** - 2016-10-10
+
+- Update dependencies and devDependencies ([#48](https://github.com/klei/grunt-injector/pull/48))
+- Fix [#51](https://github.com/klei/grunt-injector/issues/51)
+- Add `postfix` option 
+
+**1.0.1** - 2016-05-20 - fix ([#41](https://github.com/klei/grunt-injector/issues/41))
+
+**1.0.0** - 2016-04-23
+
+- Update readme with travis badge (#44)
+- Adding prefix option (#42)
+- Update peerDependencies to support Grunt 1.0 
+- Make lineEnding default value to the destination file's line ending (#36)
+- Do not write empty lines (#34)
+
 **0.6.0** - 2014-11-26 - Adding `relative` option ([#15](https://github.com/klei/grunt-injector/pull/15))
 
 **0.5.4** - 2014-07-22 - Now able to handle overrides in `bower.json` ([#11](https://github.com/klei/grunt-injector/pull/11))
