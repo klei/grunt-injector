@@ -63,6 +63,7 @@ module.exports = function(grunt) {
       var that = this;
       options.lineEnding = getDefaultLineEnding(options, that, grunt);
     }
+    
 
     // Iterate over all specified file groups and gather files to inject:
 
@@ -300,17 +301,19 @@ function getDefaultLineEnding(options, that, grunt) {
   // when destination file is a template
   var destination = options.template || options.templateString;
 
-  // when destination file is destFile
-  if (options.destFile) {
-    destination = options.destFile;
-  }
-
-  // if the destination file does not exist yet
-  // try to figure out lineEnding through src files
-  if (!grunt.file.exists(that.files[0].dest)) {
-    destination = that.filesSrc[0];
-  } else {
-    destination = that.files[0].dest;
+  // if destination file not found, try to guess from destFile
+  if (typeof destination === 'undefined') {
+    if (options.destFile && grunt.file.exists(that.files[0].dest)) {
+      destination = options.destFile;
+    } else {
+      //if the destination file does not exist yet
+      // try to figure out lineEnding through src files
+      if (!grunt.file.exists(that.files[0].dest)) {
+        destination = that.filesSrc[0];
+      } else {
+        destination = that.files[0].dest;
+      }
+    }
   }
   
   if (typeof destination === 'undefined') {
@@ -322,7 +325,6 @@ function getDefaultLineEnding(options, that, grunt) {
       contents = String(grunt.file.read(destination));
     }
   }
-
+  
   return /\r\n/.test(contents) ? '\r\n' : '\n';
 }
-
