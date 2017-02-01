@@ -172,7 +172,15 @@ module.exports = function(grunt) {
             sources.sort(function (a, b) {
               return options.sort(a.file, b.file);
             });
+          } else {
+            //parent dir's files go first.
+            if (options.parentDirFirst) {
+              sources.sort(function (a, b) {
+                return a.file.split("/").length - b.file.split("/").length;
+              });
+            }
           }
+
 
           // Do the injection:
           var re = getInjectorTagsRegExp(starttag, endtag);
