@@ -23,6 +23,7 @@ module.exports = function(grunt) {
       min: false,
       template: null,
       bowerPrefix: null,
+      alwaysInject: false,
       relative: false,
       prefix: '',
       postfix: '',
@@ -183,7 +184,7 @@ module.exports = function(grunt) {
         });
 
         // Write the destination file.
-        if (templateContent !== templateOriginal || !grunt.file.exists(destination)) {
+        if (options.alwaysInject || templateContent !== templateOriginal || !grunt.file.exists(destination)) {
           grunt.file.write(destination, templateContent);
         } else {
           grunt.log.ok('Nothing changed');

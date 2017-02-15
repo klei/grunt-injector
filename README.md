@@ -74,6 +74,12 @@ Default value: `!options.relative`
 
 Specifies if a root slash (`/`) should be added to all paths.
 
+#### options.alwaysInject
+Type: `Boolean`
+Default value: `false`
+
+If set to `true` files will always get injected, even if nothing changed
+
 #### options.relative
 Type: `Boolean`
 Default value: `true`
