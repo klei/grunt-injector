@@ -2,9 +2,6 @@
 
 [![Build Status](https://api.travis-ci.org/klei/grunt-injector.svg?branch=master)](https://travis-ci.org/klei/grunt-injector)
 
-# Contributors are welcomed!
-
-**I don't have enough time to maintain this plugin as I would want to, so I'm looking for people who want to help out and be contributors/repository admins.**
 
 ## Interested?
 

@@ -8,6 +8,12 @@
     "email": "joakim@klei.se",
     "url": "http://joakim.beng.se"
   },
+  "contributors": [
+    {
+      "name": "Patrik Laszlo",
+      "email": "alabard@gmail.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/klei/grunt-injector.git"
@@ -25,7 +31,6 @@
   },
   "devDependencies": {
     "grunt": "~1.0.3",
-    "grunt-cli": "~1.3.2",
     "grunt-contrib-clean": "~2.0.0",
     "grunt-contrib-jshint": "~2.0.0",
     "grunt-contrib-nodeunit": "~2.0.0"
