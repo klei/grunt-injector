@@ -25,6 +25,7 @@ module.exports = function(grunt) {
       bowerPrefix: null,
       relative: false,
       prefix: '',
+      clean: false,
       postfix: '',
       addRootSlash: (function (that) {
         var addRootSlash = true;
@@ -177,10 +178,19 @@ module.exports = function(grunt) {
           // Do the injection:
           var re = getInjectorTagsRegExp(starttag, endtag);
           templateContent = templateContent.replace(re, function (match, indent, starttag, content, endtag) {
-            grunt.log.writeln('Injecting ' + key.green + ' files ' + ('(' + sources.length + ' files)').grey);
-            return indent + starttag + getIndentedTransformations(sources, indent, options.lineEnding) + endtag;
+              grunt.log.writeln('Injecting ' + key.green + ' files ' + ('(' + sources.length + ' files)').grey);
+              return indent + starttag + getIndentedTransformations(sources, indent, options.lineEnding) + endtag;
           });
         });
+
+        // Clean the injection:
+        if (options.clean) {
+          var re = new RegExp('(<!\\-\\- injector:\\S. \\-\\->)(\\n|\\r|.)*?(<!\\-\\- endinjector \\-\\->)');
+          templateContent = templateContent.replace(re, function (match, starttag, content, endtag) {
+            grunt.log.writeln(('Cleaning all files from the injector list').green);
+            return starttag + endtag;
+          });
+        }
 
         // Write the destination file.
         if (templateContent !== templateOriginal || !grunt.file.exists(destination)) {
@@ -203,18 +213,18 @@ function getTag (tag, ext) {
 }
 
 function getFilesFromBower (bowerFile) {
-  
+
   // Load bower dependencies via `wiredep` programmatic access
   var dependencies = require('wiredep')({
         'bowerJson': JSON.parse(fs.readFileSync(bowerFile, 'utf8')),
         'directory': getBowerComponentsDir(bowerFile)
-      } 
+      }
     );
-     
+
   // Pluck out just the JS and CSS Dependencies
   var filteredDependencies = _.pick(dependencies,'css','js');
-  
-  // Concatenate into a filepaths array   
+
+  // Concatenate into a filepaths array
   return Object.keys(filteredDependencies).reduce(function (files, key) {
        return files.concat(filteredDependencies[key]);
     }, []);
@@ -297,7 +307,7 @@ function getIndentedTransformations (sources, indent, lineEnding) {
 
 function getDefaultLineEnding(options, that, grunt) {
   var contents = '';
-  
+
   // when destination file is a template
   var destination = options.template || options.templateString;
 
@@ -315,7 +325,7 @@ function getDefaultLineEnding(options, that, grunt) {
       }
     }
   }
-  
+
   if (typeof destination === 'undefined') {
     grunt.log.error('No template found, unable to guess line ending character.');
   } else {
