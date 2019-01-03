@@ -318,6 +318,12 @@ For more advanced task configurations see the `Gruntfile.js` in this repository 
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+**1.1.11** - 2019-01-03
+- Update dependencies and devDependencies 
+- minimum NodeJs is v4
+- Introducing a clean option to force remove all the files listed in the template file, if any
+  * https://github.com/klei/grunt-injector/pull/49
+
 
 **1.1.0** - 2016-10-10
 
