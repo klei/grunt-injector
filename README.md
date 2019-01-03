@@ -1,6 +1,6 @@
 # grunt-injector
 
-[![Build Status](https://api.travis-ci.com/klei/grunt-injector.svg?branch=master)](https://travis-ci.org/klei/grunt-injector)
+[![Build Status](https://api.travis-ci.com/klei/grunt-injector.svg?branch=master)](https://travis-ci.com/klei/grunt-injector)
 
 
 ## Interested?
