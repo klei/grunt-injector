@@ -1,13 +1,19 @@
 {
   "name": "grunt-injector",
   "description": "Inject references to files into other files (think scripts and stylesheets into an html file)",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "homepage": "https://github.com/klei/grunt-injector",
   "author": {
     "name": "Joakim Carlstein",
     "email": "joakim@klei.se",
     "url": "http://joakim.beng.se"
   },
+  "contributors": [
+    {
+      "name": "Patrik Laszlo",
+      "email": "alabard@gmail.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/klei/grunt-injector.git"
@@ -18,17 +24,16 @@
   "license": "MIT",
   "main": "Gruntfile.js",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">=4.0.0"
   },
   "scripts": {
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-nodeunit": "~0.4.1"
+    "grunt": "~1.0.3",
+    "grunt-contrib-clean": "~2.0.0",
+    "grunt-contrib-jshint": "~2.0.0",
+    "grunt-contrib-nodeunit": "~2.0.0"
   },
   "peerDependencies": {
     "grunt": ">=0.4.0"
@@ -42,7 +47,7 @@
     "bower"
   ],
   "dependencies": {
-    "wiredep": "~2.2.0",
-    "lodash": "~2.4.1"
+    "wiredep": "~4.0.0",
+    "lodash": "~4.17.11"
   }
 }

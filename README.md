@@ -1,10 +1,7 @@
 # grunt-injector
 
-[![Build Status](https://api.travis-ci.org/klei/grunt-injector.svg?branch=master)](https://travis-ci.org/klei/grunt-injector)
+[![Build Status](https://api.travis-ci.com/klei/grunt-injector.svg?branch=master)](https://travis-ci.com/klei/grunt-injector)
 
-# Contributors are welcomed!
-
-**I don't have enough time to maintain this plugin as I would want to, so I'm looking for people who want to help out and be contributors/repository admins.**
 
 ## Interested?
 
@@ -13,7 +10,9 @@
 > Inject references to files into other files (think scripts and stylesheets into an html file)
 
 ## Getting Started
-This plugin requires Grunt `>=0.4.x`
+Current plugin requires Grunt `~1.0.0` and supports node engine `>=4.0.0`.
+
+Plugin versions `v1.0.1 (and earlier)` require Grunt `>=0.4.x` and support node engine `>= 0.8.0`.
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -109,6 +108,12 @@ Type: `String`
 Default value: `''`
 
 Set the prefix to append to the beginning of each injected file. Useful to change the directory name in combination with ignorePath.
+
+#### options.postfix
+Type: `String`
+Default value: `''`
+
+Set the postfix to append to the end of each injected file. Useful to reset cached resources like "/path/to/script.js?offset01".
 
 #### options.bowerPrefix
 Type: `String`
@@ -313,6 +318,22 @@ For more advanced task configurations see the `Gruntfile.js` in this repository 
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+**1.1.0** - 2016-10-10
+
+- Update dependencies and devDependencies ([#48](https://github.com/klei/grunt-injector/pull/48))
+- Fix [#51](https://github.com/klei/grunt-injector/issues/51)
+- Add `postfix` option 
+
+**1.0.1** - 2016-05-20 - fix ([#41](https://github.com/klei/grunt-injector/issues/41))
+
+**1.0.0** - 2016-04-23
+
+- Update readme with travis badge (#44)
+- Adding prefix option (#42)
+- Update peerDependencies to support Grunt 1.0 
+- Make lineEnding default value to the destination file's line ending (#36)
+- Do not write empty lines (#34)
 
 **0.6.0** - 2014-11-26 - Adding `relative` option ([#15](https://github.com/klei/grunt-injector/pull/15))
 
