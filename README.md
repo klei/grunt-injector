@@ -3,11 +3,7 @@
 [![Build Status](https://api.travis-ci.com/klei/grunt-injector.svg?branch=master)](https://travis-ci.com/klei/grunt-injector)
 
 
-## Interested?
-
-**Contact me! See `package.json` for contact information.**
-
-> Inject references to files into other files (think scripts and stylesheets into an html file)
+Inject references to files into other files (think scripts and stylesheets into an html file)
 
 ## Getting Started
 Current plugin requires Grunt `~1.0.0` and supports node engine `>=4.0.0`.
